@@ -24,7 +24,7 @@ export default {
 </script>
 
 <template>
-  <Header v-if="!(pageName === 'Login')">{{ pageName }}</Header>
+  <Header>{{ pageName }}</Header>
   <router-view class="router-view" @pageName="(name: string) => taskName = name"></router-view>
 </template>
 

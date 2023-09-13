@@ -10,22 +10,6 @@ export default {
     };
   },
   methods: {
-    submitGoogleLogin(response: any) {
-      fetch('https://localhost:7163/api/Account/GoogleLogin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(response.credential)
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    },
     submitPasswordLogin(event: Event) {
       event.preventDefault();
 
@@ -49,20 +33,6 @@ export default {
     }
   },
   mounted() {
-    google.accounts.id.initialize({
-      client_id: '855538175583-u7r1nr0afi8907ut4p30kbh7m0cmifeo.apps.googleusercontent.com',
-      callback: this.submitGoogleLogin
-    });
-
-    const submitBtn = this.$refs.submit_btn as HTMLButtonElement;
-
-    const googleBtn = document.getElementById('google_btn');
-    google.accounts.id.renderButton(googleBtn, {
-      theme: "outline",
-      logo_alignment: "left",
-      size: "large",
-      width: submitBtn.offsetWidth + "px"
-    });
   },
 };
 </script>
