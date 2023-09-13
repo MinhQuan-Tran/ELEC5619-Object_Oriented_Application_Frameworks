@@ -1,35 +1,103 @@
-@import './base.css';
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: normal;
+  color: #213547;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  --background-color: white;
+  --secondary-color: #f4f4f4;
+  --primary-color: yellow;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #747bff;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--background-color);
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  background: var(--primary-color);
+  font-size: medium;
+  border: none;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+input {
+  background: var(--secondary-color);
+  color: black;
+  font-size: larger;
+}
+
+h2 {
+  margin: 0;
+}
+
+.card {
+  padding: 2em;
+}
 
 #app {
-  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
   margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
+  text-align: center;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: white;
+    --background-color: #242424;
+    --secondary-color: #2f2f2f;
+  }
 
-@media (hover: hover) {
   a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
+    color: #535bf2;
   }
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+  input {
+    color: white;
   }
 }
