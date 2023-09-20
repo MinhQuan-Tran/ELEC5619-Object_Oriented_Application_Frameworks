@@ -68,7 +68,6 @@ export default {
 
 <style scoped>
 .login {
-  background: var(--background-color);
   box-sizing: border-box;
   width: 100%;
   align-self: stretch;
