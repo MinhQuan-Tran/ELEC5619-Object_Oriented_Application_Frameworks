@@ -1,6 +1,7 @@
 FROM node:lts-alpine
 
-RUN npm install vue@latest
+# install simple http server for serving static content
+RUN npm install -g http-server
 
 WORKDIR /app
 
