@@ -1,0 +1,68 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.2'
+	id 'io.spring.dependency-management' version '1.1.2'
+
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+	targetCompatibility = '17'
+}
+
+repositories {
+	// Gradle没有自己的中央仓库
+	// 先从本地maven仓库寻找依赖的jar包，存在则直接使用本地maven仓库的jar
+	mavenLocal()
+	// 本地maven仓库没有则从远程仓库下载jar包，并保存到 环境变量GRADLE_USER_HOME 配置的路径下
+	// 设置maven仓库阿里镜像地址
+	maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+	// 配置使用Maven的中央仓库
+	mavenCentral()
+}
+
+dependencies {
+	runtimeOnly 'software.aws.rds:aws-mysql-jdbc:1.1.6'
+	runtimeOnly 'software.amazon.awssdk:rds:2.20.57'
+	implementation group: 'software.aws.rds', name: 'aws-mysql-jdbc', version: '1.1.9'
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'mysql:mysql-connector-java:8.0.23'
+	implementation 'org.liquibase:liquibase-core'
+	// Spring Security
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	compileOnly 'org.projectlombok:lombok:1.18.22' // 请检查最新版本
+	annotationProcessor 'org.projectlombok:lombok:1.18.22' // 请检查最新版本
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+def jarname = String.format("%s-%s.jar",project.name,version)
+// 拷贝文件 dependsOn: bootJar 依赖springboot 插件的 bootJar打包命令
+task copyConfigFile(type: Copy, dependsOn: bootJar) {
+	// 清除app目录的历史文件
+	delete "app/"
+	// copy jar包 从 build/libs/ 目录到 app/ 目录
+	from('build/libs/' + jarname)
+	into 'app/'
+	// 重命名成我们要的名字
+	rename(jarname, project.name + '.jar')
+}
+// 依赖 clean 任务
+task buildTodoCoderJar(dependsOn: clean) {
+	dependsOn copyConfigFile
+}
+
