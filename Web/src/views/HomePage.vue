@@ -2,31 +2,10 @@
 export default {
   data() {
     return {
-      taskGroup: [
-        {
-          id: 1,
-          name: "Task Group 1",
-          members: [
-            "Member 1",
-            "Member 2",
-            "Member 3",
-          ]
-        },
-        {
-          id: 2,
-          name: "Task Group 2",
-          members: [
-            "Member 4",
-            "Member 5",
-          ]
-        }
-      ],
+
     };
   },
   methods: {
-    displayGroupMembers(members: string[]) {
-      return members.join(", ");
-    }
   }
 }
 </script>
@@ -43,19 +22,7 @@ export default {
     </div>
 
     <main>
-      <div v-if="!taskGroup.length">
-        <span>
-          Welcome to Task Buddy! <br>
-          <br>
-          Click the button below to create or join a task list.
-        </span>
-      </div>
-      <router-link v-else v-for="group in  taskGroup " :to="{ name: 'Task', params: { groupId: group.id } }"
-        class="group-card">
-        <span class="group-name">{{ group.name }}</span>
-        <br>
-        <span class="group-members">{{ displayGroupMembers(group.members) }}</span>
-      </router-link>
+
     </main>
   </div>
 </template>
