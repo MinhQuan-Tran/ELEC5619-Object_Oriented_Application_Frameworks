@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class APIApplication {
 	public static void main(String[] args) {
 
-		SpringApplication.run(LiuquApplication.class, args);
+		SpringApplication.run(APIApplication.class, args);
 	}
 	@GetMapping("/hello")
 	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
