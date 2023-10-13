@@ -1,5 +1,5 @@
-package com.example.api;
-
+package com.example.demo;
+import com.example.demo.model.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -11,15 +11,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @RestController
-public class ApiApplication {
+public class DemoApplication {
 	public static void main(String[] args) {
-
-		SpringApplication.run(ApiApplication.class, args);
-	}
-
-	@GetMapping("/hello")
-	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return String.format("Hello %s!", name);
+		SpringApplication.run(DemoApplication.class, args);
 	}
 
 	@Bean

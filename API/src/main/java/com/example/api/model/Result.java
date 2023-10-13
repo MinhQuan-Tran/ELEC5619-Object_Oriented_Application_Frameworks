@@ -1,6 +1,5 @@
 package com.example.api.model;
 
-
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,7 +15,7 @@ public class Result<T> implements Serializable {
     /**
      * 消息
      */
-    private String messgae;
+    private String message;
 
     /**
      * 是否操作成功
@@ -34,7 +33,7 @@ public class Result<T> implements Serializable {
      * @param msg 消息
      */
     public void setResultSuccess(String msg) {
-        this.messgae = msg;
+        this.message = msg;
         this.code = 0;
         this.data = null;
     }
@@ -46,7 +45,7 @@ public class Result<T> implements Serializable {
      * @param data 数据体
      */
     public void setResultSuccess(String msg, T data) {
-        this.messgae = msg;
+        this.message = msg;
         this.code = 0;
         this.data = data;
     }
@@ -57,7 +56,7 @@ public class Result<T> implements Serializable {
      * @param msg 消息
      */
     public void setResultFailed(String msg) {
-        this.messgae = msg;
+        this.message = msg;
         this.code = 1;
         this.data = null;
     }

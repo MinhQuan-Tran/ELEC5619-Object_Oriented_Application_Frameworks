@@ -3,32 +3,45 @@ export default {
   data() {
     return {
       formData: {
-        email: '',
+        emailOrPhone: '',
         password: '',
         // Add other form fields here
       }
     };
   },
   methods: {
-    submitPasswordLogin(event: Event) {
+    submitPasswordLogin(event: Event): void {
       event.preventDefault();
 
-      fetch('https://localhost:7163/api/Account/PasswordLogin', {
+      fetch(`${import.meta.env.VITE_ROOT_API}/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: this.formData.email,
-          password: this.formData.password
-        })
+        body: new FormData(this.$refs.loginForm as HTMLFormElement)
       })
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(data => {
+              throw new Error(data.message);
+            });
+          }
+          return response.json();
+        })
         .then(data => {
           console.log(data);
+
+          this.$refs.loginBtn.setAttribute("data-status", "success");
+          this.$refs.loginBtn.innerText = data.message;
+
+          this.$store.commit("user/setUser", data.data);
+          this.$cookies.set("auth_token", data.auth_token);
+
+          setTimeout(() => this.$router.push({ name: "Home" }), 2000);
         })
         .catch(error => {
           console.error(error);
+
+          this.$refs.loginBtn.setAttribute("data-status", "error");
+          this.$refs.loginBtn.innerText = error + "\n\nClick here to retry";
+          this.$refs.loginBtn.disabled = false;
         });
     }
   },
@@ -44,20 +57,17 @@ export default {
       <img src="/TaskBuddy_logo.svg" alt="TaskBuddy logo" height="300" width="300" />
     </picture>
 
-    <form class="login-form" @submit="submitPasswordLogin">
+    <form ref="loginForm" class="login-form" @submit="submitPasswordLogin">
       <div class="input-box">
-        <input type="text" name="email" id="email" v-model="formData.email" required />
+        <input type="text" name="emailOrPhone" id="emailOrPhone" v-model="formData.emailOrPhone" required />
         <label for="username">Email</label>
       </div>
       <div class="input-box">
         <input type="password" name="password" id="password" v-model="formData.password" required />
         <label for="password">Password</label>
       </div>
-      <button ref="submit_btn" type="submit">Login</button>
+      <button ref="loginBtn" type="submit">Login</button>
     </form>
-
-    <div id="google_btn">
-    </div>
 
     <div class="signup">
       <p>New to TaskBuddy?</p>

@@ -1,0 +1,277 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Ego
+      changes:
+#       用户表
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: uid
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    autoIncrement: true
+              - column:
+                  name: nickname
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    defaultValueComputed: "CONCAT('user', UUID())"
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: personal_description
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_silence
+                  type: TINYINT(1)
+                  constraints:
+                    nullable: true
+                    defaultValue: 0
+              - column:
+                  name: token
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: dob
+                  type: datetime
+                  constraints:
+                    remarks: "??? I forgot"
+                    nullable: true
+              - column:
+                  name: avatar_path
+                  type: varchar(255)
+                  constraints:
+                    remarks: "avatar path"
+                    nullable: true
+                    defaultValue: "default value path"
+              - column:
+                  name: hobby
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+                    defaultValue: "nothing"
+              - column:
+                  name: user_type
+                  type: enum('Regular', 'Admin', 'Editor', 'Autism')
+                  constraints:
+                    nullable: false
+
+
+
+#       活动表
+        - createTable:
+            tableName: activity
+            columns:
+              - column:
+                  name: aid
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    autoIncrement: true
+              - column:
+                  name: publisher_id
+                  type: int
+                  constraints:
+                    remarks: "发布者id"
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    remarks: "标题"
+                    nullable: false
+              - column:
+                  name: tags
+                  type: JSON
+                  constraints:
+                    remarks: "标签"
+                    nullable: false
+
+              - column:
+                  name: start_time
+                  type: datetime
+                  constraints:
+                    remarks: "开始时间"
+                    nullable: false
+              - column:
+                  name: end_time
+                  type: datetime
+                  constraints:
+                    remarks: "结束时间"
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    remarks: "简介"
+                    nullable: false
+              - column:
+                  name: images
+                  type: JSON
+                  constraints:
+                    remarks: "图片链接"
+                    nullable: false
+
+              - column:
+                  name: location
+                  type: varchar(255)
+                  constraints:
+                    remarks: "地点"
+                    nullable: false
+              - column:
+                  name: price
+                  type: varchar(255)
+                  constraints:
+                    remarks: "价格"
+                    nullable: false
+              - column:
+                  name: is_end
+                  type: TINYINT(1)
+                  constraints:
+                    remarks: "是否截止"
+                    nullable: false
+                    defaultValue: 0
+              - column:
+                  name: max_people_count
+                  type: int
+                  constraints:
+                    remarks: "最多报名人数"
+                    nullable: false
+                    defaultValue: 0
+              - column:
+                  name: now_people_count
+                  type: int
+                  constraints:
+                    remarks: "目前报名人数"
+                    nullable: false
+                    defaultValue: 0
+              - column:
+                  name: collection_count
+                  type: int
+                  constraints:
+                    remarks: "收藏人数"
+                    nullable: false
+                    defaultValue: 0
+
+#       消息列表
+        - createTable:
+            tableName: notice
+            columns:
+              - column:
+                  name: nid
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    autoIncrement: true
+              - column:
+                  name: uid
+                  type: int
+                  constraints:
+                    remarks: "推送者id"
+                    nullable: false
+              - column:
+                  name: content
+                  type: varchar(255)
+                  constraints:
+                    remarks: "推送内容"
+                    nullable: false
+              - column:
+                  name: is_read
+                  type: TINYINT(1)
+                  constraints:
+                    remarks: "是否已读"
+                    nullable: false
+#       朋友表
+        - createTable:
+            tableName: friend
+            columns:
+              - column:
+                  name: fid
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    autoIncrement: true
+              - column:
+                  name: uid
+                  type: int
+                  constraints:
+                    remarks: "用户id"
+                    nullable: false
+              - column:
+                  name: friend_id
+                  type: int
+                  constraints:
+                    remarks: "朋友id"
+                    nullable: false
+              - column:
+                  name: is_confirmed
+                  type: TINYINT(1)
+                  constraints:
+                    remarks: "是否确认"
+                    nullable: false
+#       群聊表
+        - createTable:
+            tableName: group
+            columns:
+              - column:
+                  name: gid
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    autoIncrement: true
+              - column:
+                  name: group_name
+                  type: varchar(255)
+                  constraints:
+                    remarks: "群名称"
+                    nullable: false
+              - column:
+                  name: avatar
+                  type: varchar(255)
+                  constraints:
+                    remarks: "群头像"
+                    nullable: false
+              - column:
+                  name: group_owner
+                  type: int
+                  constraints:
+                    remarks: "群主id"
+                    nullable: false
+  - changeSet:
+      id: 2
+      author: Ego
+      changes:
+        - renameColumn:
+            tableName: user
+            oldColumnName: name
+            newColumnName: username
+            columnDataType: varchar(255)

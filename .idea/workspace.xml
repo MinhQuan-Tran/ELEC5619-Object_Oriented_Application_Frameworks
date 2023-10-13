@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6286de7e-3f93-45c3-8ea0-5616c87c7a4e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/API/docker/springboot/app/API.jar" beforeDir="false" afterPath="$PROJECT_DIR$/API/docker/springboot/app/API.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/resources/db/changelog/liquibase.docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/resources/db/changelog/liquibase.docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web/src/views/LoginPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Web/src/views/LoginPage.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2WfF1dW25Gnzt5G0nHyueUvya9H" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "forgetpassword",
+    "last_opened_file_path": "C:/Users/someo/OneDrive/Documents/GitHub/ELEC5619-Object_Oriented_Application_Frameworks/demo",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6286de7e-3f93-45c3-8ea0-5616c87c7a4e" name="Changes" comment="" />
+      <created>1697115516147</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1697115516147</updated>
+      <workItem from="1697115519883" duration="1677000" />
+      <workItem from="1697119272558" duration="76000" />
+      <workItem from="1697158774380" duration="57000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
