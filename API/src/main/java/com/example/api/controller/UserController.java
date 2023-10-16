@@ -114,21 +114,16 @@ public class UserController {
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
 
-        if (!updatedUserDTO.equals(userDTO)) {
-            result.setResultSuccess("Get user success", updatedUserDTO);
+        result.setResultSuccess("Get user success", updatedUserDTO);
 
-            HttpHeaders headers = new HttpHeaders();
-            Date exp = new Date();
-            exp.setTime(exp.getTime() + 1000 * 60 * 60 * 24 * 7); // 7 days
-            Map<String, Object> data = Map.of("user", updatedUserDTO);
-            headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + JWTManager.createToken(exp, data));
-            headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
+        HttpHeaders headers = new HttpHeaders();
+        Date exp = new Date();
+        exp.setTime(exp.getTime() + 1000 * 60 * 60 * 24 * 7); // 7 days
+        Map<String, Object> data = Map.of("user", updatedUserDTO);
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + JWTManager.createToken(exp, data));
+        headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
 
-            return new ResponseEntity<>(result, headers, HttpStatus.OK);
-        }
-
-        result.setResultSuccess("Get user success", userDTO);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
     @PostMapping("/forgot-password")

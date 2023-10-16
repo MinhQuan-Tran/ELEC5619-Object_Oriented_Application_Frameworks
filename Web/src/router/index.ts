@@ -62,6 +62,11 @@ router.beforeEach((to, from, next) => {
                 throw new Error(data.message)
               })
             }
+
+            if (response.headers.get('Authorization') !== null) {
+              window.$cookies.set('auth_token', response.headers.get('Authorization'))
+            }
+
             return response.json()
           })
           .then((data) => {
