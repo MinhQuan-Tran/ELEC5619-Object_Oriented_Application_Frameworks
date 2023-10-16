@@ -23,25 +23,29 @@ export default {
               throw new Error(data.message);
             });
           }
+
+          if (response.headers.get("Authorization") !== null) {
+            this.$cookies.set("auth_token", response.headers.get("Authorization"));
+          }
+
           return response.json();
         })
         .then(data => {
           console.log(data);
 
-          this.$refs.loginBtn.setAttribute("data-status", "success");
-          this.$refs.loginBtn.innerText = data.message;
+          (this.$refs.loginBtn as HTMLButtonElement).setAttribute("data-status", "success");
+          (this.$refs.loginBtn as HTMLButtonElement).innerText = data.message;
 
           this.$store.commit("user/setUser", data.data);
-          this.$cookies.set("auth_token", data.auth_token);
 
           setTimeout(() => this.$router.push({ name: "Home" }), 2000);
         })
         .catch(error => {
           console.error(error);
 
-          this.$refs.loginBtn.setAttribute("data-status", "error");
-          this.$refs.loginBtn.innerText = error + "\n\nClick here to retry";
-          this.$refs.loginBtn.disabled = false;
+          (this.$refs.loginBtn as HTMLButtonElement).setAttribute("data-status", "error");
+          (this.$refs.loginBtn as HTMLButtonElement).innerText = error + "\n\nClick here to retry";
+          (this.$refs.loginBtn as HTMLButtonElement).disabled = false;
         });
     }
   },

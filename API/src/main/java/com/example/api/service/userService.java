@@ -21,6 +21,7 @@ public class userService {
 
     /**
      * *
+     * 
      * @param user
      * @return userDTO
      */
@@ -35,10 +36,11 @@ public class userService {
     }
 
     /**
- * register
- * @param user parameter encapsulation
- * @return Result
- */
+     * register
+     * 
+     * @param user parameter encapsulation
+     * @return Result
+     */
     public Result register(User user) {
         Result<UserDTO> result = new Result<>();
         Optional<User> getUser = userRepository.findByEmail(user.getEmail());
@@ -61,17 +63,20 @@ public class userService {
         Result<UserDTO> result = new Result<>();
         // Encode login password
         String hashedPassword = passwordEncoder.encode(plainPassword);
-//        print(hashedPassword);
+        // print(hashedPassword);
         // validate password
         User user = userRepository.findByEmail(emailOrPhone)
                 .orElse((User) userRepository.findByPhone(emailOrPhone).orElse(null));
-        if (user != null && passwordEncoder.matches(plainPassword, user.getPassword())) { // Encrypted passwords should be used in practical applications
+        if (user != null && passwordEncoder.matches(plainPassword, user.getPassword())) { // Encrypted passwords should
+                                                                                          // be used in practical
+                                                                                          // applications
             UserDTO userDTO = convertToDto(user);
             result.setResultSuccess("login successful", userDTO);
 
-        }else{
+        } else {
             result.setResultFailed("User name and password do not match");
-        };
+        }
+        ;
         return result;
     }
 

@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.example.api.utils.*;
+
 @SpringBootApplication
 @RestController
 public class ApiApplication {
 	public static void main(String[] args) {
-
 		SpringApplication.run(ApiApplication.class, args);
+		JWTManager.generateAndStoreKeys();
+		EmailManager.init();
 	}
 
 	@GetMapping("/hello")

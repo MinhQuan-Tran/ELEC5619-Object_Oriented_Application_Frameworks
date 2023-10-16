@@ -1,19 +1,32 @@
 <template>
-  <div class="reset-password">
+  <div class="signup">
     <picture>
       <img src="/TaskBuddy_logo.svg" alt="TaskBuddy logo" height="300" width="300" />
     </picture>
 
-    <form class="reset-form" @submit="submitResetRequest">
+    <form class="login-form" @submit="submitSignup">
+      <div class="input-box">
+        <input type="text" name="username" id="username" v-model="formData.username" required />
+        <label for="username">Username</label>
+      </div>
       <div class="input-box">
         <input type="text" name="email" id="email" v-model="formData.email" required />
         <label for="email">Email</label>
       </div>
-      <button ref="submit_btn" type="submit">Request Password Reset</button>
+      <div class="input-box">
+        <input type="password" name="password" id="password" v-model="formData.password" required />
+        <label for="password">Password</label>
+      </div>
+      <div class="input-box">
+        <input type="password" name="confirmPassword" id="confirmPassword" v-model="formData.confirmPassword" required />
+        <label for="confirmPassword">Confirm Password</label>
+      </div>
+      <button ref="submit_btn" type="submit">Sign Up</button>
     </form>
 
-    <div class="back-link">
-      <router-link to="/login">Back to Login</router-link>
+    <div class="signup-link">
+      <p>Already have an account?</p>
+      <router-link to="/login">Login</router-link>
     </div>
   </div>
 </template>
@@ -23,43 +36,59 @@ export default {
   data() {
     return {
       formData: {
-        email: ''
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
       }
     };
   },
   methods: {
-    submitResetRequest(event: Event) {
+    submitSignup(event: Event) {
       event.preventDefault();
-      // Logic to send the reset password request to your backend server.
+      if (this.formData.password !== this.formData.confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+      // Logic to send the signup data to your backend server.
     }
   },
 };
 </script>
   
 <style scoped>
-.reset-password {
+.signup {
   background: var(--background-color);
   box-sizing: border-box;
   width: 100%;
   align-self: stretch;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  /* changed from center to space-between */
   align-items: center;
   flex-direction: column;
-  padding: 2em;
+  padding: 1em 2em;
+  max-height: 100vh;
+  /* sets the maximum height to the view height */
+  overflow-y: auto;
+  /* adds a scrollbar if content overflows */
 }
 
 picture {
   display: flex;
   justify-content: center;
+  margin-bottom: 1em;
+  /* added some bottom margin */
 }
 
-.reset-form {
+.login-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 300px;
+  margin-bottom: 1.5em;
+  /* added some bottom margin */
 }
 
 .input-box {
@@ -92,7 +121,7 @@ picture {
   transform: translate(-5px, calc(-1 * (1em + 10px + 5px)));
 }
 
-.reset-form button {
+.login-form button {
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
@@ -104,18 +133,20 @@ picture {
   transition: all 0.3s ease-in-out;
 }
 
-.reset-form button:hover {
+.login-form button:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-.back-link {
+.signup-link {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  font-size: large;
-  text-align: center;
+  align-items: center;
+}
+
+.signup-link p {
+  font-size: 0.9em;
+  margin: 0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -131,6 +162,5 @@ picture {
   .input-box input:valid~label {
     color: var(--primary-color);
   }
-}
-</style>
+}</style>
   

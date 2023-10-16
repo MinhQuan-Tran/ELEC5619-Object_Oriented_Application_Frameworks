@@ -18,13 +18,11 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
-
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-//                        .anyRequest().permitAll()
+                        // .anyRequest().permitAll()
                         .requestMatchers("/api/**").permitAll()
                         .anyRequest().denyAll()
 
