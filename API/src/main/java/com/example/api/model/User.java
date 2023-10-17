@@ -10,12 +10,28 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer uid;
-    private String nickname;
     private String username;
     private String email;
     private String phone;
     private String password;
     private String token;
+
+    public String getPersonal_description() {
+        return personal_description;
+    }
+
+    public void setPersonal_description(String personal_description) {
+        this.personal_description = personal_description;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
     private String personal_description;
     private String hobby;
 
@@ -28,19 +44,12 @@ public class User {
         this.uid = uid;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String name) {
+    public void setUsername(String username) {
         this.username = username;
     }
 

@@ -46,18 +46,18 @@ public class Result<T> implements Serializable {
      */
     public void setResultSuccess(String msg, T data) {
         this.message = msg;
-        this.code = 0;
+        this.code = 200;
         this.data = data;
     }
 
     /**
-     * 设定结果为失败
+     * Set failed result
      *
-     * @param msg 消息
+     * @param msg message
      */
+
     public void setResultFailed(String msg) {
         this.message = msg;
-        this.code = 1;
         this.data = null;
     }
 

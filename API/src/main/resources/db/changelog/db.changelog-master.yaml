@@ -3,7 +3,7 @@ databaseChangeLog:
       id: 1
       author: Ego
       changes:
-#       用户表
+#       User table
         - createTable:
             tableName: user
             columns:
@@ -15,13 +15,7 @@ databaseChangeLog:
                     nullable: false
                     autoIncrement: true
               - column:
-                  name: nickname
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-                    defaultValueComputed: "CONCAT('user', UUID())"
-              - column:
-                  name: name
+                  name: username
                   type: varchar(255)
                   constraints:
                     nullable: false
@@ -266,12 +260,4 @@ databaseChangeLog:
                   constraints:
                     remarks: "群主id"
                     nullable: false
-  - changeSet:
-      id: 2
-      author: Ego
-      changes:
-        - renameColumn:
-            tableName: user
-            oldColumnName: name
-            newColumnName: username
-            columnDataType: varchar(255)
+

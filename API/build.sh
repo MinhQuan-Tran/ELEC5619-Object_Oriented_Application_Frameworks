@@ -1,9 +1,10 @@
 #!/bin/bash
-# 打jar包
+# build jar file
 ./gradlew buildTodoCoderJar
-# 构建docker镜像
-docker build -t springboot/springboot-5619:v1.0.0 -f docker/springboot/Dockerfile .
-# 运行镜像
+
+# build docker image
+docker build -t springboot/springboot-5619:v1.0.0 -f ./docker/springboot/Dockerfile .
+# Run the container by image
 docker run --name=springboot-5619 -d --restart=always --add-host host.docker.internal:host-gateway -p 8082:8080 springboot/springboot-5619:v1.0.0
 # Run the sql file
 docker build -t liquibase/liquibase-mysql   ./docker/liquibase

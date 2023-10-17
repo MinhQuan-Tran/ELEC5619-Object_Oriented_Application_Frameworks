@@ -2,12 +2,19 @@ package com.example.api.dto;
 
 public class UserDTO {
     private Integer uid;
-    private String nickname;
-    private String name;
+    private String username;
     private String email;
     private String phone;
+    private String token;
 
-    // getters and setters
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+// getters and setters
 
     public Integer getUid() {
         return uid;
@@ -17,20 +24,13 @@ public class UserDTO {
         this.uid = uid;
     }
 
-    public String getNickname() {
-        return nickname;
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -54,8 +54,7 @@ public class UserDTO {
     public String toString() {
         return "UserDTO{" +
                 "uid=" + uid +
-                ", nickname='" + nickname + '\'' +
-                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';

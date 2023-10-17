@@ -4,7 +4,6 @@ import com.example.api.dto.UserDTO;
 import com.example.api.model.Result;
 import com.example.api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.api.repository.UserRepository;
@@ -12,7 +11,10 @@ import com.example.api.repository.UserRepository;
 import java.util.Optional;
 
 @Service
-public class userService {
+public class UserService {
+    @Autowired
+    private TokenService tokenService;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -28,8 +30,7 @@ public class userService {
     public UserDTO convertToDto(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setUid(user.getUid());
-        userDTO.setNickname(user.getNickname());
-        userDTO.setName(user.getUsername());
+        userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
         userDTO.setPhone(user.getPhone());
         return userDTO;
@@ -60,10 +61,10 @@ public class userService {
     }
 
     public Result login(String emailOrPhone, String plainPassword) {
+
         Result<UserDTO> result = new Result<>();
         // Encode login password
         String hashedPassword = passwordEncoder.encode(plainPassword);
-        // print(hashedPassword);
         // validate password
         User user = userRepository.findByEmail(emailOrPhone)
                 .orElse((User) userRepository.findByPhone(emailOrPhone).orElse(null));
@@ -76,7 +77,7 @@ public class userService {
         } else {
             result.setResultFailed("User name and password do not match");
         }
-        ;
+
         return result;
     }
 
