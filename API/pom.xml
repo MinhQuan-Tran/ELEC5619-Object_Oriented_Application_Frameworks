@@ -11,7 +11,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>liuqu</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>liuqu</name>
+	<username>liuqu</username>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
@@ -45,7 +45,7 @@
 	<repositories>
 		<repository>
 			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
+			<username>Spring Milestones</username>
 			<url>https://repo.spring.io/milestone</url>
 			<snapshots>
 				<enabled>false</enabled>
@@ -53,7 +53,7 @@
 		</repository>
 		<repository>
 			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
+			<username>Spring Snapshots</username>
 			<url>https://repo.spring.io/snapshot</url>
 			<releases>
 				<enabled>false</enabled>
@@ -63,7 +63,7 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
+			<username>Spring Milestones</username>
 			<url>https://repo.spring.io/milestone</url>
 			<snapshots>
 				<enabled>false</enabled>
@@ -71,7 +71,7 @@
 		</pluginRepository>
 		<pluginRepository>
 			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
+			<username>Spring Snapshots</username>
 			<url>https://repo.spring.io/snapshot</url>
 			<releases>
 				<enabled>false</enabled>
