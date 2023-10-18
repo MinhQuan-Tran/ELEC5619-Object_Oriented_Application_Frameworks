@@ -10,10 +10,10 @@ databaseChangeLog:
               - column:
                   name: uid
                   type: int
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
-                    autoIncrement: true
               - column:
                   name: username
                   type: varchar(255)
@@ -75,189 +75,277 @@ databaseChangeLog:
                   constraints:
                     nullable: false
 
-
-
-#       活动表
+#       event table
         - createTable:
-            tableName: activity
+            tableName: event
             columns:
               - column:
-                  name: aid
+                  name: eid
                   type: int
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
-                    autoIncrement: true
               - column:
-                  name: publisher_id
+                  name: uid
                   type: int
                   constraints:
-                    remarks: "发布者id"
+                    remarks: "owner id"
                     nullable: false
               - column:
                   name: title
                   type: varchar(255)
                   constraints:
-                    remarks: "标题"
                     nullable: false
               - column:
-                  name: tags
-                  type: JSON
+                  name: label
+                  type: varchar(50)
                   constraints:
-                    remarks: "标签"
                     nullable: false
 
-              - column:
-                  name: start_time
-                  type: datetime
-                  constraints:
-                    remarks: "开始时间"
-                    nullable: false
-              - column:
-                  name: end_time
-                  type: datetime
-                  constraints:
-                    remarks: "结束时间"
-                    nullable: false
               - column:
                   name: description
                   type: varchar(255)
                   constraints:
-                    remarks: "简介"
+                    remarks: "event introduction"
                     nullable: false
               - column:
-                  name: images
-                  type: JSON
+                  name: event_date
+                  type: datetime
                   constraints:
-                    remarks: "图片链接"
                     nullable: false
 
-              - column:
-                  name: location
-                  type: varchar(255)
-                  constraints:
-                    remarks: "地点"
-                    nullable: false
-              - column:
-                  name: price
-                  type: varchar(255)
-                  constraints:
-                    remarks: "价格"
-                    nullable: false
-              - column:
-                  name: is_end
-                  type: TINYINT(1)
-                  constraints:
-                    remarks: "是否截止"
-                    nullable: false
-                    defaultValue: 0
-              - column:
-                  name: max_people_count
-                  type: int
-                  constraints:
-                    remarks: "最多报名人数"
-                    nullable: false
-                    defaultValue: 0
-              - column:
-                  name: now_people_count
-                  type: int
-                  constraints:
-                    remarks: "目前报名人数"
-                    nullable: false
-                    defaultValue: 0
-              - column:
-                  name: collection_count
-                  type: int
-                  constraints:
-                    remarks: "收藏人数"
-                    nullable: false
-                    defaultValue: 0
-
-#       消息列表
+#       post table
         - createTable:
-            tableName: notice
+            tableName: post
             columns:
               - column:
-                  name: nid
+                  name: pid
                   type: int
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
-                    autoIncrement: true
               - column:
                   name: uid
                   type: int
                   constraints:
-                    remarks: "推送者id"
+                    remarks: "pusher id"
                     nullable: false
               - column:
                   name: content
                   type: varchar(255)
                   constraints:
-                    remarks: "推送内容"
                     nullable: false
               - column:
-                  name: is_read
-                  type: TINYINT(1)
+                  name: post
+                  type: datetime
                   constraints:
-                    remarks: "是否已读"
                     nullable: false
-#       朋友表
+#       comment table
         - createTable:
-            tableName: friend
+            tableName: comment
             columns:
               - column:
-                  name: fid
+                  name: cid
                   type: int
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
-                    autoIncrement: true
               - column:
                   name: uid
                   type: int
                   constraints:
-                    remarks: "用户id"
                     nullable: false
               - column:
-                  name: friend_id
+                  name: parent_comment_id
                   type: int
+              - column:
+                  name: context
+                  type: varchar(255)
                   constraints:
-                    remarks: "朋友id"
                     nullable: false
               - column:
-                  name: is_confirmed
-                  type: TINYINT(1)
+                  name: comment_date
+                  type: datetime
                   constraints:
-                    remarks: "是否确认"
-                    nullable: false
-#       群聊表
+                    nullable: true
+#       emotion record
         - createTable:
-            tableName: group
+            tableName: emotion_record
             columns:
               - column:
-                  name: gid
+                  name: eid
                   type: int
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
-                    autoIncrement: true
               - column:
-                  name: group_name
+                  name: emotion
                   type: varchar(255)
                   constraints:
-                    remarks: "群名称"
+                    remarks: "emtion card"
                     nullable: false
               - column:
-                  name: avatar
-                  type: varchar(255)
+                  name: emotion_record_date
+                  type: datetime
                   constraints:
-                    remarks: "群头像"
+                    nullable: false
+#       entry
+        - createTable:
+            tableName: entry
+            columns:
+              - column:
+                  name: eid
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
                     nullable: false
               - column:
-                  name: group_owner
+                  name: emotion
+                  type: varchar(50)
+                  constraints:
+                    remarks: "emtion card"
+                    nullable: false
+              - column:
+                  name: emotion_record_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+#       news
+        - createTable:
+            tableName: news
+            columns:
+              - column:
+                  name: eid
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: uid
                   type: int
                   constraints:
-                    remarks: "群主id"
+                    remarks: "emtion card"
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: new_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+        #     autism_register
+        - createTable:
+            tableName: autism_register
+            columns:
+              - column:
+                  name: aid
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dob
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: gender
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
+                  name: guardian_first_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: guardian_last_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: relationship_to_individual
+                  type: varchar(50)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: guardian_email
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: guardian_phone
+                  type: varchar(15)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: race_ethnicity
+                  type: varchar(50)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: spoken_languages
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
+                  name: nationality
+                  type: varchar(50)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: diagnosis
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: diagnosis_date
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: register_date
+                  type: datetime
+                  constraints:
                     nullable: false
 
