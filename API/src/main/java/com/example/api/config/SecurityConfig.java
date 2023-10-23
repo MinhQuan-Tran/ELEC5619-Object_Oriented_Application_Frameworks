@@ -1,7 +1,5 @@
 package com.example.api.config;
 
-import com.example.api.filter.TokenAuthenticationFilter;
-import com.example.api.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +13,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Autowired
-    private TokenService tokenService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -32,7 +28,6 @@ public class SecurityConfig {
                         .anyRequest().denyAll()
 
                 )
-                .addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class)  // Add your custom token authentication filter
                 .csrf().disable();
         return http.build();
     }

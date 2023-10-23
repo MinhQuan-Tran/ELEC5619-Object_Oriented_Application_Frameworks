@@ -54,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Result> login(@RequestParam String emailOrPhone, @RequestParam String password) {
+    public ResponseEntity<Result> login(@RequestParam String email, @RequestParam String password) {
         // Result result = userService.login(emailOrPhone, password);
         // return new ResponseEntity<>(result, HttpStatus.OK);
 
@@ -62,8 +62,7 @@ public class UserController {
 
         String hashedPassword = passwordEncoder.encode(password);
 
-        User user = userRepository.findByEmail(emailOrPhone)
-                .orElse((User) userRepository.findByPhone(emailOrPhone).orElse(null));
+        User user = userRepository.findByEmail(email).orElse(null);
 
         if (user != null && passwordEncoder.matches(password, user.getPassword())) { // Encrypted passwords should
                                                                                      // be used in practical

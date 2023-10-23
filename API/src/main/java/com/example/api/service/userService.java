@@ -8,13 +8,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.api.repository.UserRepository;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class UserService {
-    @Autowired
-    private TokenService tokenService;
-
     @Autowired
     private UserRepository userRepository;
 
