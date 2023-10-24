@@ -1,5 +1,6 @@
 package com.example.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.util.Map;
 @Data
 public class Result implements Serializable {
 
-
+    @JsonIgnore
     private final Map<Integer, String> resultMessage;
 
     public Result() {
@@ -27,9 +28,6 @@ public class Result implements Serializable {
 
     }
 
-    private String getValue(Integer key) {
-        return resultMessage.get(key);
-    }
 
 //    private int code;
 

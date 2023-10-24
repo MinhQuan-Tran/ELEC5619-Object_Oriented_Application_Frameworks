@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -44,6 +45,9 @@ public class UserController {
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
         userDTO.setPhone(user.getPhone());
+        userDTO.setHobby(user.getHobby());
+        userDTO.setGender(user.getGender());
+        userDTO.setPersonal_description(user.getPersonal_description());
         return userDTO;
     }
 
@@ -222,5 +226,52 @@ public class UserController {
             @RequestParam String newPassword) {
         userService.changePassword(uid, token, newPassword);
         return ResponseEntity.ok("Password changed successfully");
+    }
+
+
+    @GetMapping("users/{id}")
+    public ResponseEntity<Result> getUserById(@PathVariable Integer id) {
+        Result result = new Result();
+
+        Map<String, Object> resultMap = new HashMap<>();
+        UserDTO userDTO = userService.findUserById(id);
+
+        if(userDTO != null){
+
+            resultMap.put("user",userDTO);
+            result.setResultSuccess(0, resultMap);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        } else {
+
+            result.setResultFailed(3);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+
+
+    }
+    @PutMapping(value = "/users/{id}", consumes = { "multipart/form-data" })
+    public ResponseEntity<Result> updateUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable Integer id,@ModelAttribute User updatedUser) {
+        Result result = new Result();
+
+        if (token == null || token.isEmpty() || !token.contains("Bearer ") || !JWTManager.checkToken(token.substring(7), id)) {
+            result.setResultFailed(4);
+            return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
+        }
+
+        User user = userService.updateUser(id, updatedUser);
+
+        UserDTO userDTO = convertToDto(user);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("user",userDTO);
+        result.setResultSuccess(0, resultMap);
+
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

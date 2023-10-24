@@ -5,7 +5,34 @@ public class UserDTO {
     private String username;
     private String email;
     private String phone;
+    private String personal_description;
+    private String gender;
 
+    public String getPersonal_description() {
+        return personal_description;
+    }
+
+    public void setPersonal_description(String personal_description) {
+        this.personal_description = personal_description;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
+    private String hobby;
 // getters and setters
 
     public Integer getUid() {

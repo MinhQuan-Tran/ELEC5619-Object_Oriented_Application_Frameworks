@@ -3,11 +3,12 @@ package com.example.api.service;
 import com.example.api.dto.UserDTO;
 import com.example.api.model.Result;
 import com.example.api.model.User;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.api.repository.UserRepository;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -94,18 +95,29 @@ public class UserService {
         }
     }
 
-    public void findUserById(Integer uid) {
-        Result result = new Result();
+    public UserDTO findUserById(Integer uid) {
         User user = userRepository.findById(uid).orElse(null);
         if (user != null) {
 
             UserDTO userDTO = convertToDto(user);
-            Map<String, Object> resultMap = new HashMap<>();
-            resultMap.put("user",userDTO);
 
-            result.setResultSuccess(0, resultMap);
+            return userDTO;
         }else{
-            result.setResultFailed(3);
+            return null;
         }
+
+    }
+
+    public User updateUser(Integer id, User updatedUser) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setPersonal_description(updatedUser.getPersonal_description());
+                    user.setHobby(updatedUser.getHobby());
+                    user.setGender(updatedUser.getGender());
+                    user.setPhone(updatedUser.getPhone());
+                    user.setUsername(updatedUser.getUsername());
+                    // Update other fields as needed
+                    return userRepository.save(user);
+                }).orElseThrow(() -> new EntityNotFoundException("User not found with id " + id));
     }
 }

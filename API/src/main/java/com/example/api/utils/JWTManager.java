@@ -6,6 +6,7 @@ import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+import com.example.api.dto.UserDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Date;
@@ -18,6 +19,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.JWTCreator.Builder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 public class JWTManager {
     private static final String PUBLIC_KEY_FILE = "publicKey.pem";
@@ -95,5 +98,15 @@ public class JWTManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static boolean checkToken(String token, Integer id) {
+
+        UserDTO userDTO = JWTManager.getDataFromToken(token, "user", UserDTO.class);
+
+        if (userDTO.getUid() != id) {
+            return false;
+        }
+        return true;
     }
 }

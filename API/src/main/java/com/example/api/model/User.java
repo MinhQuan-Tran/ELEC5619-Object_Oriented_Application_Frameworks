@@ -16,6 +16,16 @@ public class User {
     private String password;
     private String token;
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    private String gender;
+
     public String getPersonal_description() {
         return personal_description;
     }
