@@ -7,8 +7,10 @@ import com.example.api.service.*;
 import com.example.api.utils.*;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,6 +45,9 @@ public class UserController {
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
         userDTO.setPhone(user.getPhone());
+        userDTO.setHobby(user.getHobby());
+        userDTO.setGender(user.getGender());
+        userDTO.setPersonal_description(user.getPersonal_description());
         return userDTO;
     }
 
@@ -55,20 +60,21 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Result> login(@RequestParam String email, @RequestParam String password) {
-        // Result result = userService.login(emailOrPhone, password);
-        // return new ResponseEntity<>(result, HttpStatus.OK);
-
-        Result<UserDTO> result = new Result<UserDTO>();
 
         String hashedPassword = passwordEncoder.encode(password);
 
         User user = userRepository.findByEmail(email).orElse(null);
+        Result result = new Result();
 
         if (user != null && passwordEncoder.matches(password, user.getPassword())) { // Encrypted passwords should
                                                                                      // be used in practical
                                                                                      // applications
             UserDTO userDTO = convertToDto(user);
-            result.setResultSuccess("Login success", userDTO);
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("user",userDTO);
+
+            result.setResultSuccess(0, resultMap);
+
             HttpHeaders headers = new HttpHeaders();
             Date exp = new Date();
             exp.setTime(exp.getTime() + 1000 * 60 * 60 * 24 * 7); // 7 days
@@ -78,16 +84,16 @@ public class UserController {
 
             return new ResponseEntity<>(result, headers, HttpStatus.OK);
         } else {
-            result.setResultFailed("Login failed");
+            result.setResultFailed(1);
             return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
         }
     }
 
     @GetMapping("/users/me")
     public ResponseEntity<Result> getUserByAuthToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        Result<UserDTO> result = new Result<UserDTO>();
+        Result result = new Result();
         if (token == null || token.isEmpty() || !token.contains("Bearer ")) {
-            result.setResultFailed("Invalid token!");
+            result.setResultFailed(4);
             return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
         }
 
@@ -96,18 +102,20 @@ public class UserController {
         UserDTO userDTO = JWTManager.getDataFromToken(token, "user", UserDTO.class);
 
         if (userDTO == null) {
-            result.setResultFailed("Invalid token!");
+            result.setResultFailed(4);
             return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
         }
 
         UserDTO updatedUserDTO = convertToDto(userRepository.findById(userDTO.getUid()).orElse(null));
 
         if (updatedUserDTO == null) {
-            result.setResultFailed("User not found!");
+            result.setResultFailed(3);
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
 
-        result.setResultSuccess("Get user success", updatedUserDTO);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("user",updatedUserDTO);
+        result.setResultSuccess(0, resultMap);
 
         HttpHeaders headers = new HttpHeaders();
         Date exp = new Date();
@@ -143,39 +151,42 @@ public class UserController {
                 e.printStackTrace();
 
                 Result result = new Result();
-                result.setResultFailed("Failed to send email");
+                result.setResultFailed(5);
                 return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
         Result result = new Result();
-        result.setResultSuccess("Reset password link has been sent to the email if it exists");
+        result.setResultSuccess(7);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/validate-reset-password-token")
     public ResponseEntity<Result> validateResetPasswordToken(@RequestParam String resetPasswordToken) {
-        Result<UserDTO> result = new Result<UserDTO>();
+        Result result = new Result();
         if (resetPasswordToken == null || resetPasswordToken.isEmpty()) {
-            result.setResultFailed("Invalid token!");
+            result.setResultFailed(4);
             return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
         }
 
         int uid = JWTManager.getDataFromToken(resetPasswordToken, "uid", Integer.class);
 
         if (uid == 0) {
-            result.setResultFailed("Invalid token!");
+            result.setResultFailed(4);
             return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
         }
 
         UserDTO userDTO = convertToDto(userRepository.findById(uid).orElse(null));
 
         if (userDTO == null) {
-            result.setResultFailed("User not found!");
+            result.setResultFailed(3);
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
 
-        result.setResultSuccess("Token is valid", userDTO);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("user",userDTO);
+
+        result.setResultSuccess(0, resultMap);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -185,28 +196,28 @@ public class UserController {
         Result result = new Result();
 
         if (!password.equals(confirmPassword)) {
-            result.setResultFailed("Passwords do not match");
+            result.setResultFailed(6);
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
 
         int uid = JWTManager.getDataFromToken(resetPasswordToken, "uid", Integer.class);
 
         if (uid == 0) {
-            result.setResultFailed("Invalid token");
+            result.setResultFailed(4);
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
 
         User user = userRepository.findById(uid).orElse(null);
 
         if (user == null) {
-            result.setResultFailed("User not found");
+            result.setResultFailed(3);
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
 
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
 
-        result.setResultSuccess("Password reset successfully");
+        result.setResultSuccess(0);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -215,5 +226,52 @@ public class UserController {
             @RequestParam String newPassword) {
         userService.changePassword(uid, token, newPassword);
         return ResponseEntity.ok("Password changed successfully");
+    }
+
+
+    @GetMapping("users/{id}")
+    public ResponseEntity<Result> getUserById(@PathVariable Integer id) {
+        Result result = new Result();
+
+        Map<String, Object> resultMap = new HashMap<>();
+        UserDTO userDTO = userService.findUserById(id);
+
+        if(userDTO != null){
+
+            resultMap.put("user",userDTO);
+            result.setResultSuccess(0, resultMap);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        } else {
+
+            result.setResultFailed(3);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+
+
+    }
+    @PutMapping(value = "/users/{id}", consumes = { "multipart/form-data" })
+    public ResponseEntity<Result> updateUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable Integer id,@ModelAttribute User updatedUser) {
+        Result result = new Result();
+
+        if (token == null || token.isEmpty() || !token.contains("Bearer ") || !JWTManager.checkToken(token.substring(7), id)) {
+            result.setResultFailed(4);
+            return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
+        }
+
+        User user = userService.updateUser(id, updatedUser);
+
+        UserDTO userDTO = convertToDto(user);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("user",userDTO);
+        result.setResultSuccess(0, resultMap);
+
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
