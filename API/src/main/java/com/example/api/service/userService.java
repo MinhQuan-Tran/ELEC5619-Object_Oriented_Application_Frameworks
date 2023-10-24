@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.api.repository.UserRepository;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -41,10 +42,10 @@ public class UserService {
      * @return Result
      */
     public Result register(User user) {
-        Result<UserDTO> result = new Result<>();
+        Result result = new Result();
         Optional<User> getUser = userRepository.findByEmail(user.getEmail());
         if (getUser.isPresent()) {
-            result.setResultFailed("The username already exists!");
+            result.setResultFailed(2);
             return result;
         }
         // encode password by Bcrypt
@@ -53,14 +54,16 @@ public class UserService {
         user.setPassword(hashedPassword);
         userRepository.save(user);
         UserDTO userDTO = convertToDto(user);
-        result.setResultSuccess("Successfully registered user!", userDTO);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("user",userDTO);
+        result.setResultSuccess(0, resultMap);
         return result;
 
     }
 
     public Result login(String emailOrPhone, String plainPassword) {
 
-        Result<UserDTO> result = new Result<>();
+        Result result = new Result();
         // Encode login password
         String hashedPassword = passwordEncoder.encode(plainPassword);
         // validate password
@@ -70,10 +73,12 @@ public class UserService {
                                                                                           // be used in practical
                                                                                           // applications
             UserDTO userDTO = convertToDto(user);
-            result.setResultSuccess("login successful", userDTO);
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("user",userDTO);
+            result.setResultSuccess(0, resultMap);
 
         } else {
-            result.setResultFailed("User name and password do not match");
+            result.setResultFailed(1);
         }
 
         return result;
@@ -86,6 +91,21 @@ public class UserService {
             String hashedPassword = passwordEncoder.encode(newPassword);
             user.setPassword(newPassword); // Encrypted passwords should be used in practical applications
             userRepository.save(user);
+        }
+    }
+
+    public void findUserById(Integer uid) {
+        Result result = new Result();
+        User user = userRepository.findById(uid).orElse(null);
+        if (user != null) {
+
+            UserDTO userDTO = convertToDto(user);
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("user",userDTO);
+
+            result.setResultSuccess(0, resultMap);
+        }else{
+            result.setResultFailed(3);
         }
     }
 }
