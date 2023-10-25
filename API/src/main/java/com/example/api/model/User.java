@@ -14,7 +14,15 @@ public class User {
     private String email;
     private String phone;
     private String password;
-    private String token;
+    private String avatarPath;
+
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
+    }
 
     public String getGender() {
         return gender;
@@ -26,12 +34,12 @@ public class User {
 
     private String gender;
 
-    public String getPersonal_description() {
-        return personal_description;
+    public String getPersonalDescription() {
+        return personalDescription;
     }
 
-    public void setPersonal_description(String personal_description) {
-        this.personal_description = personal_description;
+    public void setPersonalDescription(String personal_description) {
+        this.personalDescription = personal_description;
     }
 
     public String getHobby() {
@@ -42,7 +50,7 @@ public class User {
         this.hobby = hobby;
     }
 
-    private String personal_description;
+    private String personalDescription;
     private String hobby;
 
 
@@ -87,13 +95,6 @@ public class User {
         this.password = password;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 
 
 }

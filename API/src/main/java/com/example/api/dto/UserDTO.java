@@ -1,19 +1,31 @@
 package com.example.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
     private Integer uid;
     private String username;
     private String email;
     private String phone;
-    private String personal_description;
+    private String personalDescription;
     private String gender;
+    private String avatarPath;
 
-    public String getPersonal_description() {
-        return personal_description;
+    public String getAvatarPath() {
+        return avatarPath;
     }
 
-    public void setPersonal_description(String personal_description) {
-        this.personal_description = personal_description;
+    public void setAvatarPath(String avatar_path) {
+        this.avatarPath = avatar_path;
+    }
+
+    public String getPersonalDescription() {
+        return personalDescription;
+    }
+
+    public void setPersonalDescription(String personal_description) {
+        this.personalDescription = personal_description;
     }
 
     public String getGender() {
