@@ -48,6 +48,7 @@ public class UserController {
         userDTO.setHobby(user.getHobby());
         userDTO.setGender(user.getGender());
         userDTO.setPersonalDescription(user.getPersonalDescription());
+        userDTO.setUserType(user.getUserType());
         return userDTO;
     }
 
