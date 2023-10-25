@@ -361,3 +361,123 @@ databaseChangeLog:
                   type: varchar(10)
                   constraints:
                     nullable: false
+
+  - changeSet:
+      id: 3
+      author: Ego
+      changes:
+        - addColumn:
+            tableName: post
+            columns:
+              - column:
+                  name: if_deleted
+                  type: boolean
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+                    defaultValue: false
+
+  - changeSet:
+      id: 4
+      author: Ego
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: post
+            baseColumnNames: uid
+            constraintName: fk_post_user
+            referencedTableName: user
+            referencedColumnNames: uid
+            onDelete: CASCADE
+
+  - changeSet:
+      id: 5
+      author: Ego
+      changes:
+        - addColumn:
+            tableName: comment
+            columns:
+              - column:
+                  name: if_deleted
+                  type: boolean
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+                    defaultValue: false
+  - changeSet:
+      id: 6
+      author: Ego
+      changes:
+        - addColumn:
+            tableName: comment
+            columns:
+              - column:
+                  name: pid
+                  type: int
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 7
+      author: Ego
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: comment
+            baseColumnNames: uid
+            constraintName: fk_comment_user
+            referencedTableName: user
+            referencedColumnNames: uid
+            onDelete: CASCADE
+
+  - changeSet:
+      id: 8
+      author: Ego
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: comment
+            baseColumnNames: pid
+            constraintName: fk_comment_post
+            referencedTableName: post
+            referencedColumnNames: pid
+            onDelete: CASCADE
+  - changeSet:
+      id: 9
+      author: Ego
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: comment
+            baseColumnNames: parent_comment_id
+            constraintName: fk_comment_parent_comment
+            referencedTableName: comment
+            referencedColumnNames: cid
+            onDelete: SET NULL
+  - changeSet:
+      id: 10
+      author: Ego
+      changes:
+        - renameColumn:
+            tableName: post
+            oldColumnName: post
+            newColumnName: post_date
+            columnDataType: datetime
+  - changeSet:
+      id: 11
+      author: Ego
+      changes:
+        - addColumn:
+            tableName: emotion_record
+            columns:
+              - column:
+                  name: uid
+                  type: int
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 12
+      author: Ego
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: emotion_record
+            baseColumnNames: uid
+            constraintName: fk_emotion_record_user
+            referencedTableName: user
+            referencedColumnNames: uid
+            onDelete: CASCADE

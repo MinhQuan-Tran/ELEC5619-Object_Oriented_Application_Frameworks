@@ -47,7 +47,7 @@ public class UserController {
         userDTO.setPhone(user.getPhone());
         userDTO.setHobby(user.getHobby());
         userDTO.setGender(user.getGender());
-        userDTO.setPersonal_description(user.getPersonal_description());
+        userDTO.setPersonalDescription(user.getPersonalDescription());
         return userDTO;
     }
 
@@ -221,12 +221,6 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/change-password")
-    public ResponseEntity<String> changePassword(@RequestParam Integer uid, @RequestParam String token,
-            @RequestParam String newPassword) {
-        userService.changePassword(uid, token, newPassword);
-        return ResponseEntity.ok("Password changed successfully");
-    }
 
 
     @GetMapping("users/{id}")

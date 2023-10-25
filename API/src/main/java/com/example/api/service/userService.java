@@ -85,15 +85,7 @@ public class UserService {
         return result;
     }
 
-    public void changePassword(Integer uid, String token, String newPassword) {
-        User user = userRepository.findById(uid).orElse(null);
-        if (user != null && user.getToken().equals(token)) {
 
-            String hashedPassword = passwordEncoder.encode(newPassword);
-            user.setPassword(newPassword); // Encrypted passwords should be used in practical applications
-            userRepository.save(user);
-        }
-    }
 
     public UserDTO findUserById(Integer uid) {
         User user = userRepository.findById(uid).orElse(null);
@@ -111,7 +103,7 @@ public class UserService {
     public User updateUser(Integer id, User updatedUser) {
         return userRepository.findById(id)
                 .map(user -> {
-                    user.setPersonal_description(updatedUser.getPersonal_description());
+                    user.setPersonalDescription(updatedUser.getPersonalDescription());
                     user.setHobby(updatedUser.getHobby());
                     user.setGender(updatedUser.getGender());
                     user.setPhone(updatedUser.getPhone());
