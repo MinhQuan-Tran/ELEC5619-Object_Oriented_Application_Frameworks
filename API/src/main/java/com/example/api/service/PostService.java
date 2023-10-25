@@ -99,8 +99,9 @@ public class PostService {
         commentUserDTO.setProfileImageURL(user.getAvatarPath());
         commentUserDTO.setId(user.getUid());
         CommentDTO dto = new CommentDTO();
+
         dto.setId(comment.getCid());
-        dto.setCommentUserDTO(commentUserDTO);
+        dto.setUser(commentUserDTO);
         dto.setContent(comment.getContext());
         dto.setDate(comment.getCommentDate());
 

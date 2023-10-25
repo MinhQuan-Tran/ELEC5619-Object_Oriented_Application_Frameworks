@@ -31,12 +31,12 @@ public class CommentDTO {
         this.id = id;
     }
 
-    public CommentUserDTO getCommentUserDTO() {
+    public CommentUserDTO getUser() {
         return user;
     }
 
-    public void setCommentUserDTO(CommentUserDTO commentUserDTO) {
-        this.user = commentUserDTO;
+    public void setUser(CommentUserDTO user) {
+        this.user = user;
     }
 
     public Date getDate() {
