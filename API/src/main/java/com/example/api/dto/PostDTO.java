@@ -8,13 +8,12 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PostDTO {
-    public Date getPostDate() {
-        return postDate;
-    }
 
-    public void setPostDate(Date date) {
-        this.postDate = date;
-    }
+    private Integer id;
+    private Date date;
+    private String content;
+    private CommentUserDTO user;
+    private List<CommentDTO> comments;
 
     public String getContent() {
         return content;
@@ -22,14 +21,6 @@ public class PostDTO {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public UserDTO getUser() {
-        return user;
-    }
-
-    public void setUser(UserDTO user) {
-        this.user = user;
     }
 
     public List<CommentDTO> getComments() {
@@ -40,18 +31,30 @@ public class PostDTO {
         this.comments = comments;
     }
 
-    public Integer getPid() {
-        return pid;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    private Integer pid;
-    private Date postDate;
-    private String content;
-    private UserDTO user;
-    private List<CommentDTO> comments;
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    public CommentUserDTO getUser() {
+        return user;
+    }
+
+    public void setUser(CommentUserDTO user) {
+        this.user = user;
+    }
+    
+
 
 }
