@@ -1,6 +1,11 @@
 <template>
   <header>
-    Header
+    <router-link to="/text-input">Text Input</router-link>
+    <router-link to="/home">Home</router-link>
+    <router-link to="/signup">Signup</router-link>
+    <router-link to="/login">Login</router-link>
+    <router-link to="/forgot-password">Forgot Password</router-link>
+    <router-link to="/emotion-record">Emotion Record</router-link>
   </header>
 </template>
 

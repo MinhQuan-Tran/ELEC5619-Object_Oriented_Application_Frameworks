@@ -14,6 +14,10 @@
         <label for="email">Email</label>
       </div>
       <div class="input-box">
+        <input type="text" name="phone" id="phone" v-model="formData.phone" required />
+        <label for="phone">Phone</label>
+      </div>
+      <div class="input-box">
         <input type="password" name="password" id="password" v-model="formData.password" required />
         <label for="password">Password</label>
       </div>
@@ -21,6 +25,16 @@
         <input type="password" name="confirmPassword" id="confirmPassword" v-model="formData.confirmPassword" required />
         <label for="confirmPassword">Confirm Password</label>
       </div>
+      <div class="input-box" style="margin-top: 10px;"> <!-- Added a margin for alignment -->
+        <select name="user_type" id="user_type" v-model="formData.user_type" required style="margin-bottom: 30px;">
+          <option value="Regular">Regular</option>
+          <option value="Admin">Admin</option>
+          <option value="Editor">Editor</option>
+          <option value="Autism">Autism</option>
+        </select>
+        <label for="user_type" style="top: 0px;">User Type</label>
+      </div>
+      <div style="height: 20px;"></div>
       <button ref="submit_btn" type="submit">Sign Up</button>
     </form>
 
@@ -40,17 +54,43 @@ export default {
         email: '',
         password: '',
         confirmPassword: '',
+        phone: '',
+        user_type: 'Regular'
       }
     };
   },
   methods: {
-    submitSignup(event: Event) {
+    submitSignup(event:Event) {
       event.preventDefault();
+
       if (this.formData.password !== this.formData.confirmPassword) {
-        alert("Passwords do not match!");
-        return;
+          alert("Passwords do not match!");
+          return;
       }
-      // Logic to send the signup data to your backend server.
+
+      const userData = new FormData();
+      userData.append('username', this.formData.username);
+      userData.append('email', this.formData.email);
+      userData.append('password', this.formData.password);
+      userData.append('phone', this.formData.phone);
+      userData.append('user_type', this.formData.user_type);
+
+      fetch("http://localhost:8082/api/register", {
+          method: "POST",
+          body: userData
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              alert("Registration successful!");
+          } else {
+              alert(data.message || "Registration failed!");
+          }
+      })
+      .catch(error => {
+          console.error("Error:", error);
+          alert("An error occurred during registration.");
+      });
     }
   },
 };
@@ -95,6 +135,8 @@ picture {
   position: relative;
   width: 100%;
 }
+
+
 
 .input-box input {
   width: 100%;
@@ -162,5 +204,7 @@ picture {
   .input-box input:valid~label {
     color: var(--primary-color);
   }
+
+  
 }</style>
   
