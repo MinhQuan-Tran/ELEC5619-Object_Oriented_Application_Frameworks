@@ -32,11 +32,11 @@ public class CommentDTO {
     }
 
     public CommentUserDTO getCommentUserDTO() {
-        return commentUserDTO;
+        return user;
     }
 
     public void setCommentUserDTO(CommentUserDTO commentUserDTO) {
-        this.commentUserDTO = commentUserDTO;
+        this.user = commentUserDTO;
     }
 
     public Date getDate() {
@@ -48,7 +48,7 @@ public class CommentDTO {
     }
 
     private Integer id;
-    private CommentUserDTO commentUserDTO;
+    private CommentUserDTO user;
     private Date date;
     private String content;
     private List<CommentDTO> replies;
