@@ -1,8 +1,8 @@
 package com.example.api.service;
 
 import com.example.api.dto.CommentDTO;
+import com.example.api.dto.CommentUserDTO;
 import com.example.api.dto.PostDTO;
-import com.example.api.dto.UserDTO;
 import com.example.api.model.Comment;
 import com.example.api.model.Post;
 import com.example.api.model.User;
@@ -54,12 +54,20 @@ public class PostService {
     }
 
     public PostDTO getPostDetails(Integer pid) {
-        Post post = postRepository.findById(pid).orElseThrow(() -> new EntityNotFoundException("Post not found"));
+        Post post = postRepository.findById(pid).orElse(null);
+        if(post == null){
+            return null;
+        }
         List<Comment> comments = commentRepository.findByPidAndParentCommentIdIsNullAndIfDeletedFalse(post.getPid());
 
+        CommentUserDTO commentUserDTO = new CommentUserDTO();
+        commentUserDTO.setUsername(post.getUser().getUsername());
+        commentUserDTO.setProfileImageURL(post.getUser().getAvatarPath());
+        commentUserDTO.setId(post.getUser().getUid());
+
         PostDTO dto = new PostDTO();
-        dto.setPid(post.getPid());
-//        dto.setTitle(post.getTitle());
+        dto.setId(post.getPid());
+        dto.setUser(commentUserDTO);
         dto.setContent(post.getContent());
         dto.setComments(comments.stream().map(this::convertToCommentDTO).collect(Collectors.toList()));
         return dto;
@@ -70,26 +78,31 @@ public class PostService {
             throw new IllegalStateException("Post must have an associated User");
         }
         PostDTO postDTO = new PostDTO();
-        postDTO.setPostDate(post.getPostDate());
+        postDTO.setDate(post.getPostDate());
         postDTO.setContent(post.getContent());
-        postDTO.setPid(post.getPid());
+        postDTO.setId(post.getPid());
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername(post.getUser().getUsername());
-        userDTO.setAvatarPath(post.getUser().getAvatarPath());
-        userDTO.setUid(post.getUser().getUid());
+        CommentUserDTO commentUserDTO = new CommentUserDTO();
+        commentUserDTO.setUsername(post.getUser().getUsername());
+        commentUserDTO.setProfileImageURL(post.getUser().getAvatarPath());
+        commentUserDTO.setId(post.getUser().getUid());
 
-        postDTO.setUser(userDTO);
+        postDTO.setUser(commentUserDTO);
         return postDTO;
     }
 
 
     private CommentDTO convertToCommentDTO(Comment comment) {
+        User user = userRepository.findById(comment.getUid()).orElse(null);
+        CommentUserDTO commentUserDTO = new CommentUserDTO();
+        commentUserDTO.setUsername(user.getUsername());
+        commentUserDTO.setProfileImageURL(user.getAvatarPath());
+        commentUserDTO.setId(user.getUid());
         CommentDTO dto = new CommentDTO();
-        dto.setCid(comment.getCid());
-        dto.setUid(comment.getUid());
+        dto.setId(comment.getCid());
+        dto.setCommentUserDTO(commentUserDTO);
         dto.setContent(comment.getContext());
-        dto.setComment_date(comment.getCommentDate());
+        dto.setDate(comment.getCommentDate());
 
         dto.setReplies(commentRepository.findByParentCommentIdAndIfDeletedFalse(comment.getCid())
                 .stream().map(this::convertToCommentDTO).collect(Collectors.toList()));

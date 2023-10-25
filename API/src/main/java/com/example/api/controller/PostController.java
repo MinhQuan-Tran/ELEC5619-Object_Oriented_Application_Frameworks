@@ -83,6 +83,9 @@ public class PostController {
     @GetMapping("/posts/{pid}")
     public ResponseEntity<PostDTO> getPostDetails(@PathVariable Integer pid) {
         PostDTO postDetails = postService.getPostDetails(pid);
+        if (postDetails == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(postDetails, HttpStatus.OK);
     }
 }
