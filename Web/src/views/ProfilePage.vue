@@ -24,18 +24,86 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  name: 'Profile',
+  data() {
+    return {
+      formData: {
+        oldPassword: '',
+        newPassword: '',
+        // Add other form fields here
+      }
+    };
+  },
   methods: {
-    editProfile() {
-      console.log('Editing profile...');
-      // ... your code for editing profile
+    editProfile(event: Event) {
+      event.preventDefault();
+
+      fetch(`${import.meta.env.VITE_ROOT_API}/profile`, {
+        method: 'PUT',
+        body: new FormData(this.$refs.editProfileForm as HTMLFormElement)
+      })
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(data => {
+              throw new Error(data.message);
+            });
+          }
+
+          return response.json();
+        })
+        .then(data => {
+          console.log(data);
+
+          (this.$refs.editProfileBtn as HTMLButtonElement).setAttribute("data-status", "success");
+          (this.$refs.editProfileBtn as HTMLButtonElement).innerText = data.message;
+
+          // Handle successful profile edit, e.g., update local user data
+          // this.$store.commit("user/setUser", data.data);
+        })
+        .catch(error => {
+          console.error(error);
+
+          (this.$refs.editProfileBtn as HTMLButtonElement).setAttribute("data-status", "error");
+          (this.$refs.editProfileBtn as HTMLButtonElement).innerText = error + "\n\nClick here to retry";
+          (this.$refs.editProfileBtn as HTMLButtonElement).disabled = false;
+        });
     },
-    changePassword() {
-      console.log('Changing password...');
-      // ... your code for changing password
+
+    changePassword(event: Event) {
+      event.preventDefault();
+
+      fetch(`${import.meta.env.VITE_ROOT_API}/change-password`, {
+        method: 'POST',
+        body: new FormData(this.$refs.changePasswordForm as HTMLFormElement)
+      })
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(data => {
+              throw new Error(data.message);
+            });
+          }
+
+          return response.json();
+        })
+        .then(data => {
+          console.log(data);
+
+          (this.$refs.changePasswordBtn as HTMLButtonElement).setAttribute("data-status", "success");
+          (this.$refs.changePasswordBtn as HTMLButtonElement).innerText = data.message;
+
+          // Handle successful password change
+          // Maybe you want to force the user to re-login, etc.
+        })
+        .catch(error => {
+          console.error(error);
+
+          (this.$refs.changePasswordBtn as HTMLButtonElement).setAttribute("data-status", "error");
+          (this.$refs.changePasswordBtn as HTMLButtonElement).innerText = error + "\n\nClick here to retry";
+          (this.$refs.changePasswordBtn as HTMLButtonElement).disabled = false;
+        });
     },
+
     logout() {
       console.log('Logging out...');
       // ... your code for logging out
