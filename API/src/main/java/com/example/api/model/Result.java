@@ -23,8 +23,9 @@ public class Result implements Serializable {
         resultMessage.put(4, "Invalid token!");
         resultMessage.put(5, "Failed to send email");
         resultMessage.put(6, "Passwords do not match");
-
         resultMessage.put(7, "Reset password link has been sent to the email if it exists");
+        resultMessage.put(8, "Only JPEG, PNG, GIF, BMP, TIFF, SVG, or WebP images are allowed");
+
 
     }
 
