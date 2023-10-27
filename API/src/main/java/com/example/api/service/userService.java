@@ -101,6 +101,7 @@ public class UserService {
     }
 
     public User updateUser(Integer id, User updatedUser) {
+
         return userRepository.findById(id)
                 .map(user -> {
                     user.setPersonalDescription(updatedUser.getPersonalDescription());
@@ -108,6 +109,7 @@ public class UserService {
                     user.setGender(updatedUser.getGender());
                     user.setPhone(updatedUser.getPhone());
                     user.setUsername(updatedUser.getUsername());
+
                     // Update other fields as needed
                     return userRepository.save(user);
                 }).orElseThrow(() -> new EntityNotFoundException("User not found with id " + id));

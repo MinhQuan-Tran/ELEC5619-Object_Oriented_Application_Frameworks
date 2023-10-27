@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/register", consumes = { "multipart/form-data" })
-    public ResponseEntity<Result> register(User user) {
+    public ResponseEntity<Result> register(@Valid User user) {
         Result result = userService.register(user);
         return new ResponseEntity<>(result, HttpStatus.OK);
 
@@ -246,7 +247,7 @@ public class UserController {
 
     }
     @PutMapping(value = "/users/{id}", consumes = { "multipart/form-data" })
-    public ResponseEntity<Result> updateUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable Integer id,@ModelAttribute User updatedUser) {
+    public ResponseEntity<Result> updateUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable Integer id,User updatedUser) {
         Result result = new Result();
 
         if (token == null || token.isEmpty() || !token.contains("Bearer ") || !JWTManager.checkToken(token.substring(7), id)) {

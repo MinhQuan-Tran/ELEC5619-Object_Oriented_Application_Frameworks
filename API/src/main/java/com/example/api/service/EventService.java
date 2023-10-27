@@ -46,6 +46,11 @@ public class EventService {
         return false;
     }
 
+    public boolean existsById(Integer eid) {
+        return eventRepository.existsById(eid);
+    }
+
+
     public List<Event> getAllEvents() {
         List<Event> Events = eventRepository.findAll();
         return Events;

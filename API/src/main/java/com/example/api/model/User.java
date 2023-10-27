@@ -4,17 +4,25 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer uid;
+
+    @NotBlank(message = "Username is mandatory")
     private String username;
+//    @NotBlank(message = "Email is mandatory")
     private String email;
+    @NotBlank(message = "Phone is mandatory")
     private String phone;
+//    @NotBlank(message = "Password is mandatory")
     private String password;
+//    @NotBlank(message = "AvatarPath is mandatory")
     private String avatarPath;
+    @NotBlank(message = "UserType is mandatory")
     private String userType;
 
     public String getUserType() {

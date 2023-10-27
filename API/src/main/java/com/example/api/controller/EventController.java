@@ -33,18 +33,22 @@ public class EventController {
     }
 
     @PostMapping(value = "/events", consumes = { "multipart/form-data" })
-    public ResponseEntity<Void> createEvent(Event event, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    public ResponseEntity<Result> createEvent(Event event, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        Result result = new Result();
         token = token.replace("Bearer ", "");
         UserDTO userDTO = JWTManager.getDataFromToken(token, "user", UserDTO.class);
 
         if (userDTO == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            result.setResultFailed(4);
+            return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
         }
         Event createdEvent = eventService.createEvent(event, userDTO);
         if (createdEvent == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            result.setResultFailed(4);
+            return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        result.setResultFailed(0);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
 
     }
 
@@ -66,7 +70,9 @@ public class EventController {
         if (userDTO == null || !userDTO.getUserType().equals("Admin")) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-
+        if (!eventService.existsById(eid)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         boolean isDeleted = eventService.deleteEvent(eid, userDTO.getUid());
         if (!isDeleted) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);

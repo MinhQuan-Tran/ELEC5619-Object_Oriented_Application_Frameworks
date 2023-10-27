@@ -7,6 +7,7 @@ import com.example.api.model.Result;
 import com.example.api.model.User;
 import com.example.api.service.PostService;
 import com.example.api.utils.JWTManager;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class PostController {
         return true;
     }
     @PostMapping(value = "/posts", consumes = { "multipart/form-data" })
-    public ResponseEntity<Result> submitPost(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, Post post) {
+    public ResponseEntity<Result> submitPost(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,@Valid Post post) {
         Result result = new Result();
 
         if (!checkToken(token)) {

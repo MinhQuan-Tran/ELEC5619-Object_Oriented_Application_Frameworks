@@ -10,6 +10,7 @@ import com.example.api.repository.CommentRepository;
 import com.example.api.repository.PostRepository;
 import com.example.api.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,10 @@ public class PostService {
         this.postRepository = postRepository;
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
+    }
+
+    public boolean existsById(Integer postId) {
+        return postRepository.existsById(postId);
     }
 
     public PostDTO createPost(Post post){
