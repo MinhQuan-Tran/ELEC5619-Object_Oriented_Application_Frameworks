@@ -72,6 +72,7 @@ public class PostService {
 
         PostDTO dto = new PostDTO();
         dto.setId(post.getPid());
+        dto.setDate(post.getPostDate());
         dto.setUser(commentUserDTO);
         dto.setContent(post.getContent());
         dto.setComments(comments.stream().map(this::convertToCommentDTO).collect(Collectors.toList()));
