@@ -265,9 +265,4 @@ public class UserController {
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
 }

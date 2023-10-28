@@ -1,4 +1,6 @@
 # .gitignore file
+./src/main/resources/application.properties
+./src/main/resources/db/changelog/liquibase.docker.properties
 /image/
 HELP.md
 .gradle

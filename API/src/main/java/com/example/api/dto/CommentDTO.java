@@ -47,9 +47,17 @@ public class CommentDTO {
         this.date = date;
     }
 
+    public Integer getParentCommentId() {
+        return parentCommentId;
+    }
+
+    public void setParentCommentId(Integer parentCommentId) {
+        this.parentCommentId = parentCommentId;
+    }
     private Integer id;
     private CommentUserDTO user;
     private Date date;
     private String content;
     private List<CommentDTO> replies;
+    private Integer parentCommentId;
 }

@@ -110,7 +110,7 @@ public class PostService {
         dto.setUser(commentUserDTO);
         dto.setContent(comment.getContext());
         dto.setDate(comment.getCommentDate());
-
+        dto.setParentCommentId(comment.getParentCommentId());
         dto.setReplies(commentRepository.findByParentCommentIdAndIfDeletedFalse(comment.getCid())
                 .stream().map(this::convertToCommentDTO).collect(Collectors.toList()));
 

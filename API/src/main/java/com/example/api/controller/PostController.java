@@ -58,7 +58,6 @@ public class PostController {
     public ResponseEntity<Result> deletePost(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                            @PathVariable Integer pid) {
 
-
         token = token.replace("Bearer ", "");
         UserDTO userDTO = JWTManager.getDataFromToken(token, "user", UserDTO.class);
         Result result = new Result();
