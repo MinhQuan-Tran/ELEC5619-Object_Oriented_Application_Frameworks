@@ -26,9 +26,16 @@
         <label for="confirmPassword">Confirm Password</label>
       </div>
       <div class="input-box" style="margin-top: 10px;"> <!-- Added a margin for alignment -->
+        <select name="gender" id="gender" v-model="formData.gender" required style="margin-bottom: 30px;">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+        <label for="gender" style="top: 0px;">gender</label>
+      </div>
+      <div class="input-box" style="margin-top: 10px;"> <!-- Added a margin for alignment -->
         <select name="user_type" id="user_type" v-model="formData.user_type" required style="margin-bottom: 30px;">
           <option value="Regular">Regular</option>
-          <option value="Admin">Admin</option>
           <option value="Editor">Editor</option>
           <option value="Autism">Autism</option>
         </select>
@@ -55,6 +62,7 @@ export default {
         password: '',
         confirmPassword: '',
         phone: '',
+        gender: 'Male',
         user_type: 'Regular'
       }
     };
@@ -72,7 +80,8 @@ export default {
       userData.append('username', this.formData.username);
       userData.append('email', this.formData.email);
       userData.append('password', this.formData.password);
-      userData.append('phone', this.formData.phone);
+      userData.append('phone', this.formData.phone);      
+      userData.append('gender', this.formData.gender);
       userData.append('user_type', this.formData.user_type);
 
       fetch("http://localhost:8082/api/register", {
