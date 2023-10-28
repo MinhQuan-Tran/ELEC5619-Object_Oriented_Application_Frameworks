@@ -19,8 +19,8 @@ const mutations = {
     state.user_id = user.uid
     state.username = user.username
     state.email = user.email
-    state.phone_number = user.phone_number
-    state.user_type = user.user_type
+    state.phone_number = user.phone
+    state.user_type = user.userType
   }
 }
 

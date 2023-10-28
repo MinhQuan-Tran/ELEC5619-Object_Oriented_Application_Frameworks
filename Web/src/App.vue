@@ -31,8 +31,6 @@ export default {
 <style scoped>
 .router-view {
   height: 100%;
-  background: rgba(168, 104, 104, 0.15);
-
 }
 
 @media (prefers-color-scheme: dark) {}
