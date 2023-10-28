@@ -1,12 +1,13 @@
 <script lang="ts">
 import ForumHeaderComponent from "@/components/ForumHeaderComponent.vue";
-import { type Comment } from "@/types";
+import type { Comment } from "@/types";
+import type { PropType } from "vue";
 
 export default {
     name: "ForumCommentComponent",
     props: {
         comment: {
-            type: Object as () => Comment,
+            type: Object as PropType<Comment>,
             required: true
         },
         postId: {
@@ -41,12 +42,15 @@ export default {
                 .then(data => {
                     console.log(data);
 
-                    // this.$router.go(0);
+                    this.$router.go(0);
                 })
                 .catch(error => {
                     console.error(error);
                 });
         }
+    },
+    mounted() {
+        console.log(this.comment);
     },
     components: {
         ForumHeaderComponent
@@ -65,7 +69,7 @@ export default {
             <form class="write-reply" ref="replyForm" @submit="submitReply">
                 <input type="hidden" name="pid" :value="postId">
                 <input type="hidden" name="uid" :value="$store.state.user.user_id">
-                <input type="hidden" name="parent_comment_id" :value="comment.id">
+                <input type="hidden" name="parentCommentId" :value="comment.id">
                 <textarea name="context" id="comment" rows="1" placeholder="Write a reply..."></textarea>
                 <button type="submit">Reply</button>
             </form>
