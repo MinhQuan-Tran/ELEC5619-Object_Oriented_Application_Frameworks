@@ -26,10 +26,11 @@ public class SecurityConfig {
         http
                 .cors().configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(Arrays.asList("*")); // 允许所有来源
-                    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 允许所有方法
-                    config.setAllowedHeaders(Arrays.asList("*")); // 允许所有头
-                    config.setAllowCredentials(true); // 允许凭证
+                    config.addAllowedOriginPattern("*"); // allow all origins
+//                    config.setAllowedOrigins(Arrays.asList("*")); // allow all origins
+                    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // allow all methods
+                    config.setAllowedHeaders(Arrays.asList("*")); // allow all heads
+                    config.setAllowCredentials(true); // allow all details
                     return config;
                 })
                 .and()
