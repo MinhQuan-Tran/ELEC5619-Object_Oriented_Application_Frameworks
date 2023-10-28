@@ -37,10 +37,10 @@ public class PostController {
     }
     @PostMapping(value = "/posts", consumes = { "multipart/form-data" })
     public ResponseEntity<Result> submitPost(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,@Valid Post post) {
-
+        Result result = new Result();
         token = token.replace("Bearer ", "");
         UserDTO userDTO = JWTManager.getDataFromToken(token, "user", UserDTO.class);
-        Result result = new Result();
+
         if (userDTO == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
