@@ -3,7 +3,7 @@ export default {
   data() {
     return {
       formData: {
-        emailOrPhone: '',
+        email: '',
         password: '',
         // Add other form fields here
       }
@@ -36,7 +36,7 @@ export default {
           (this.$refs.loginBtn as HTMLButtonElement).setAttribute("data-status", "success");
           (this.$refs.loginBtn as HTMLButtonElement).innerText = data.message;
 
-          this.$store.commit("user/setUser", data.data);
+          this.$store.commit("user/setUser", data.data.user);
 
           setTimeout(() => this.$router.push({ name: "Home" }), 2000);
         })
@@ -63,7 +63,7 @@ export default {
 
     <form ref="loginForm" class="login-form" @submit="submitPasswordLogin">
       <div class="input-box">
-        <input type="text" name="emailOrPhone" id="emailOrPhone" v-model="formData.emailOrPhone" required />
+        <input type="email" name="email" id="email" v-model="formData.email" required />
         <label for="username">Email</label>
       </div>
       <div class="input-box">
@@ -127,13 +127,8 @@ picture {
   padding: 10px;
   pointer-events: none;
   transition: all 0.3s ease-in-out;
-}
-
-.input-box input:focus~label,
-.input-box input:valid~label {
   font-size: 0.8em;
   transform: translate(-5px, calc(-1 * (1em + 10px + 5px)));
-  /* font size + padding + extra space */
 }
 
 .login-form button {

@@ -36,54 +36,75 @@ const router = createRouter({
       path: '/reset-password/:resetPasswordToken/',
       name: 'ResetPassword',
       component: () => import('@/views/ResetPasswordPage.vue')
+    },
+    {
+      path: '/forum',
+      name: 'Forum',
+      component: () => import('@/views/ForumPage.vue')
+    },
+    {
+      path: '/forum/posts/:postId',
+      name: 'ForumDetail',
+      component: () => import('@/views/ForumDetailPage.vue'),
+      meta: { requiresAuth: true }
     }
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  // Check if the route requires authentication
-  if (to.matched.some((route) => route.meta.requiresAuth)) {
-    // Check if the user is authenticated
-    if (window.$cookies.isKey('auth_token')) {
-      // Check if the user info is already loaded
-      if (store.state.user.user_id === null) {
-        // User info is not loaded
-        fetch(`${import.meta.env.VITE_ROOT_API}/users/me`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': window.$cookies.get('csrftoken'),
-            Authorization: window.$cookies.get('auth_token')
+router.beforeEach(async (to, from, next) => {
+  // Check if the user is authenticated
+  if (window.$cookies.isKey('auth_token')) {
+    console.log('has auth_token')
+    // Check if the user info is already loaded
+    if (store.state.user.user_id == null) {
+      console.log('user_id is null')
+      // User info is not loaded
+      await fetch(`${import.meta.env.VITE_ROOT_API}/users/me`, {
+        method: 'GET',
+        headers: {
+          'X-CSRFToken': window.$cookies.get('csrftoken'),
+          Authorization: window.$cookies.get('auth_token')
+        }
+      })
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((data) => {
+              throw new Error(data.message)
+            })
           }
+
+          if (response.headers.get('Authorization') !== null) {
+            window.$cookies.set('auth_token', response.headers.get('Authorization'))
+          }
+
+          return response.json()
         })
-          .then((response) => {
-            if (!response.ok) {
-              return response.json().then((data) => {
-                throw new Error(data.message)
-              })
-            }
+        .then((data) => {
+          console.log(data)
+          store.commit('user/setUser', data.data.user)
+        })
+        .catch((error) => {
+          console.error(error)
+          window.$cookies.remove('auth_token')
+        })
+    }
 
-            if (response.headers.get('Authorization') !== null) {
-              window.$cookies.set('auth_token', response.headers.get('Authorization'))
-            }
-
-            return response.json()
-          })
-          .then((data) => {
-            console.log(data)
-            store.commit('user/setUser', data.data)
-          })
-          .catch((error) => {
-            console.error(error)
-            window.$cookies.remove('auth_token')
-            next('/login')
-          })
+    // Check if the route requires authentication
+    if (to.matched.some((route) => route.meta.requiresAuth)) {
+      console.log(
+        'requiresAuth ' + window.$cookies.isKey('auth_token') + ' ' + store.state.user.user_id
+      )
+      // the route requires authentication, check if the user is authenticated
+      if (window.$cookies.isKey('auth_token') && store.state.user.user_id !== null) {
+        // the user is authenticated, proceed as usual
+        next()
+      } else {
+        // the user is not authenticated, redirect to login
+        next({ path: '/login' })
       }
-      next() // User is authenticated, proceed to the route
     } else {
-      // User is not authenticated, redirect to the login page
-      console.log('here')
-      next('/login')
+      // The route does not require authentication, proceed as usual
+      next()
     }
   } else {
     // If the route does not require authentication, proceed as usual
