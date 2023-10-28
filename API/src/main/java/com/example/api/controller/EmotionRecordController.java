@@ -1,4 +1,3 @@
-
 package com.example.api.controller;
 
 import com.example.api.dto.EmotionRecordDTO;
@@ -7,6 +6,8 @@ import com.example.api.service.EmotionRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/api/emotion")
 public class EmotionRecordController {
@@ -14,45 +15,33 @@ public class EmotionRecordController {
     @Autowired
     private EmotionRecordService emotionRecordService;
 
-    // Convert EmotionRecord to EmotionRecordDTO
-    private EmotionRecordDTO convertToDto(EmotionRecord emotionRecord) {
-        EmotionRecordDTO emotionRecordDTO = new EmotionRecordDTO();
-        emotionRecordDTO.setEid(emotionRecord.getEid());
-        emotionRecordDTO.setEmotion(emotionRecord.getEmotion());
-        emotionRecordDTO.setEmotionRecordDate(emotionRecord.getEmotionRecordDate());
-        emotionRecordDTO.setUid(emotionRecord.getUid());
-        return emotionRecordDTO;
-    }
-
-    // Add a new emotion record
+    // Create or Update an EmotionRecord
     @PostMapping
-    public EmotionRecordDTO addEmotionRecord(@RequestBody EmotionRecordDTO emotionRecordDTO) {
-        EmotionRecord emotionRecord = new EmotionRecord();
-        emotionRecord.setEmotion(emotionRecordDTO.getEmotion());
-        emotionRecord.setEmotionRecordDate(emotionRecordDTO.getEmotionRecordDate());
-        emotionRecord.setUid(emotionRecordDTO.getUid());
-        return convertToDto(emotionRecordService.addEmotionRecord(emotionRecord));
+    public EmotionRecordDTO saveOrUpdateEmotionRecord(@RequestBody EmotionRecord emotionRecord) {
+        return emotionRecordService.addOrUpdateEmotionRecord(emotionRecord);
     }
 
-    // Get an emotion record by ID
-    @GetMapping("/{id}")
-    public EmotionRecordDTO getEmotionRecordById(@PathVariable Integer id) {
-        return emotionRecordService.getEmotionRecordById(id).map(this::convertToDto).orElse(null);
+    // Get all EmotionRecords by user ID
+    @GetMapping("/user/{uid}")
+    public List<EmotionRecordDTO> getAllEmotionRecordsByUserId(@PathVariable Integer uid) {
+        return emotionRecordService.getAllEmotionRecordsByUserId(uid);
     }
 
-    // Update an emotion record
-    @PutMapping("/{id}")
-    public EmotionRecordDTO updateEmotionRecord(@PathVariable Integer id, @RequestBody EmotionRecordDTO emotionRecordDTO) {
-        EmotionRecord updatedEmotionRecord = new EmotionRecord();
-        updatedEmotionRecord.setEmotion(emotionRecordDTO.getEmotion());
-        updatedEmotionRecord.setEmotionRecordDate(emotionRecordDTO.getEmotionRecordDate());
-        updatedEmotionRecord.setUid(emotionRecordDTO.getUid());
-        return convertToDto(emotionRecordService.updateEmotionRecord(id, updatedEmotionRecord));
+    // Get an EmotionRecord by its ID
+    @GetMapping("/{eid}")
+    public EmotionRecordDTO getEmotionRecordById(@PathVariable Integer eid) {
+        return emotionRecordService.getEmotionRecordById(eid);
     }
 
-    // Delete an emotion record
-    @DeleteMapping("/{id}")
-    public void deleteEmotionRecord(@PathVariable Integer id) {
-        emotionRecordService.deleteEmotionRecord(id);
+    // Delete an EmotionRecord by its ID
+    @DeleteMapping("/{eid}")
+    public void deleteEmotionRecordById(@PathVariable Integer eid) {
+        emotionRecordService.deleteEmotionRecordById(eid);
+    }
+
+    // Delete all EmotionRecords by user ID
+    @DeleteMapping("/user/{uid}")
+    public void deleteAllEmotionRecordsByUserId(@PathVariable Integer uid) {
+        emotionRecordService.deleteAllEmotionRecordsByUserId(uid);
     }
 }

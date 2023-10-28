@@ -1,4 +1,3 @@
-
 package com.example.api.service;
 
 import com.example.api.dto.EmotionRecordDTO;
@@ -7,11 +6,12 @@ import com.example.api.repository.EmotionRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmotionRecordService {
-    
+
     @Autowired
     private EmotionRecordRepository emotionRecordRepository;
 
@@ -25,17 +25,29 @@ public class EmotionRecordService {
         return emotionRecordDTO;
     }
 
-    // Basic CRUD methods
-    public EmotionRecordDTO saveEmotionRecord(EmotionRecord emotionRecord) {
+    // Add or update an emotion record
+    public EmotionRecordDTO addOrUpdateEmotionRecord(EmotionRecord emotionRecord) {
         EmotionRecord savedRecord = emotionRecordRepository.save(emotionRecord);
         return convertToDto(savedRecord);
     }
 
-    public Optional<EmotionRecordDTO> getEmotionRecordById(Integer id) {
-        Optional<EmotionRecord> record = emotionRecordRepository.findById(id);
-        return record.map(this::convertToDto);
+    // Get all emotion records by user ID
+    public List<EmotionRecordDTO> getAllEmotionRecordsByUserId(Integer uid) {
+        return emotionRecordRepository.findByUid(uid).stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    // Additional methods can be added as needed
+    // Get an emotion record by its ID
+    public EmotionRecordDTO getEmotionRecordById(Integer eid) {
+        return emotionRecordRepository.findById(eid).map(this::convertToDto).orElse(null);
+    }
 
+    // Delete an emotion record by its ID
+    public void deleteEmotionRecordById(Integer eid) {
+        emotionRecordRepository.deleteById(eid);
+    }
+
+    // Delete all emotion records by user ID
+    public void deleteAllEmotionRecordsByUserId(Integer uid) {
+        emotionRecordRepository.deleteByUid(uid);
+    }
 }
