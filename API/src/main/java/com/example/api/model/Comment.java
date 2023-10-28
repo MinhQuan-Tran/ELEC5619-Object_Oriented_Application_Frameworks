@@ -35,8 +35,8 @@ public class Comment {
         return parentCommentId;
     }
 
-    public void setParentCommentId(Integer parent_comment_id) {
-        this.parentCommentId = parent_comment_id;
+    public void setParentCommentId(Integer parentCommentId) {
+        this.parentCommentId = parentCommentId;
     }
 
     public Date getCommentDate() {
@@ -55,14 +55,6 @@ public class Comment {
         this.ifDeleted = if_deleted;
     }
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer cid;
-    private Integer pid;
-    private Integer uid;
-    @Column(name = "parent_comment_id")
-    private Integer parentCommentId;
-
     public String getContext() {
         return context;
     }
@@ -70,7 +62,13 @@ public class Comment {
     public void setContext(String context) {
         this.context = context;
     }
-
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Integer cid;
+    private Integer pid;
+    private Integer uid;
+    @Column(name = "parent_comment_id")
+    private Integer parentCommentId;
     private String context;
     private Date commentDate = Date.from(Instant.now());
     private boolean ifDeleted = false;
