@@ -1,6 +1,8 @@
 package com.example.api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
 import java.util.Date;
@@ -57,8 +59,10 @@ public class Post {
         this.postDate = post;
     }
 
+    @NotNull(message = "Uid is mandatory")
     @Column(name = "uid")
     private Integer uid;
+    @NotBlank(message = "Content is mandatory")
     private String content;
     private Date postDate = Date.from(Instant.now());
 

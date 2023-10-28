@@ -5,21 +5,6 @@ import java.util.List;
 
 public class CommentDTO {
 
-    public Integer getCid() {
-        return cid;
-    }
-
-    public void setCid(Integer cid) {
-        this.cid = cid;
-    }
-
-    public Integer getUid() {
-        return uid;
-    }
-
-    public void setUid(Integer uid) {
-        this.uid = uid;
-    }
 
     public String getContent() {
         return content;
@@ -29,13 +14,6 @@ public class CommentDTO {
         this.content = content;
     }
 
-    public Date getComment_date() {
-        return commentDate;
-    }
-
-    public void setComment_date(Date commentDate) {
-        this.commentDate = commentDate;
-    }
 
     public List<CommentDTO> getReplies() {
         return replies;
@@ -45,9 +23,41 @@ public class CommentDTO {
         this.replies = replies;
     }
 
-    private Integer cid;
-    private Integer uid;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public CommentUserDTO getUser() {
+        return user;
+    }
+
+    public void setUser(CommentUserDTO user) {
+        this.user = user;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Integer getParentCommentId() {
+        return parentCommentId;
+    }
+
+    public void setParentCommentId(Integer parentCommentId) {
+        this.parentCommentId = parentCommentId;
+    }
+    private Integer id;
+    private CommentUserDTO user;
+    private Date date;
     private String content;
-    private Date commentDate;
     private List<CommentDTO> replies;
+    private Integer parentCommentId;
 }
