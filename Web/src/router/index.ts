@@ -57,6 +57,11 @@ const router = createRouter({
       name: 'ForumDetail',
       component: () => import('@/views/ForumDetailPage.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: () => import('@/views/ProfilePage.vue')
     }
   ]
 })

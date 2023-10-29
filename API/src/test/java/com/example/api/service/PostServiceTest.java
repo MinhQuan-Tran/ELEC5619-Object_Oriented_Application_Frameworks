@@ -47,7 +47,9 @@ public class PostServiceTest {
         Post post = new Post();
         post.setPid(postId);
         post.setContent("Test Content");
-        post.setUser(new User());
+        User user = new User();
+        user.setUid(1);
+        post.setUser(user);
 
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
         when(commentRepository.findByPidAndParentCommentIdIsNullAndIfDeletedFalse(postId)).thenReturn(List.of());

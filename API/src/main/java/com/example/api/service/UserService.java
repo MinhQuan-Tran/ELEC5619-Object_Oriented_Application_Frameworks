@@ -23,7 +23,7 @@ public class UserService {
 
     /**
      * *
-     * 
+     *
      * @param user
      * @return userDTO
      */
@@ -38,7 +38,7 @@ public class UserService {
 
     /**
      * register
-     * 
+     *
      * @param user parameter encapsulation
      * @return Result
      */
