@@ -250,7 +250,7 @@ public class UserController {
     public ResponseEntity<Result> updateUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable Integer id,User updatedUser) {
         Result result = new Result();
 
-        if (token == null || token.isEmpty() || !token.contains("Bearer ") || !JWTManager.checkToken(token.substring(7), id)) {
+        if (token == null || token.isEmpty() || !JWTManager.checkToken(token.substring(7), id)) {
             result.setResultFailed(4);
             return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
         }

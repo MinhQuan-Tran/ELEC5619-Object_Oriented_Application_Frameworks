@@ -19,13 +19,35 @@ export default {
         postId: {
             type: Number,
             required: true
+        },
+        content: {
+            type: String,
+            required: true
         }
+    },
+    data() {
+        return {
+            translatedContent: this.content,
+        };
     },
     methods: {
-        submitComment(event: Event) {
-            event.preventDefault();
+        translate() {
+            fetch(`https://665.uncovernet.workers.dev/translate?text=${this.content}&target_lang=en`, {
+                // mode: "no-cors",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    this.translatedContent = data.response.translated_text;
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert("Error translating post")
+                });
         }
     },
+    // mounted() {
+    //     this.translatedContent = this.content;
+    // },
     components: {
         ForumHeaderComponent
     }
@@ -35,8 +57,9 @@ export default {
 <template>
     <div class="post">
         <ForumHeaderComponent :user="user" :date="date" :post-id="postId"></ForumHeaderComponent>
+        <button @click="translate">Translate to English</button>
         <p class="content">
-            <slot></slot>
+            {{ translatedContent }}
         </p>
         <router-link :to="`/forum/posts/${id}`" class="view-post">
             View post

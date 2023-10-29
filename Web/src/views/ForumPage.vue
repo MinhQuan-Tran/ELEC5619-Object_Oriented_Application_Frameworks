@@ -64,8 +64,7 @@ export default {
         </div>
         <div class="posts">
             <ForumPostComponent v-for="post in posts" :key="post.id.toString()" :id="post.id.toString()" :user="post.user"
-                :date="post.date" :post-id="post.id.valueOf()">
-                {{ post.content }}
+                :date="post.date" :post-id="post.id.valueOf()" :content="post.content">
             </ForumPostComponent>
         </div>
     </div>
