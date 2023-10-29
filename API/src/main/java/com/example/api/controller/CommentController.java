@@ -4,6 +4,7 @@ import com.example.api.dto.UserDTO;
 import com.example.api.model.Comment;
 import com.example.api.model.Result;
 import com.example.api.service.CommentService;
+import com.example.api.service.PostService;
 import com.example.api.utils.JWTManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -19,10 +20,11 @@ import java.util.Map;
 @RequestMapping(path = "/api") // This means URL's start with /demo (after Application path)
 public class CommentController {
     private final CommentService commentService;
+    private final PostService postService;
 
     @Autowired
-    public CommentController(CommentService commentService) {
-        this.commentService = commentService;
+    public CommentController(CommentService commentService, PostService postService) {
+        this.commentService = commentService;this.postService = postService;
     }
 
     private boolean checkToken(String token){
@@ -41,6 +43,9 @@ public class CommentController {
         Result result = new Result();
         if (userDTO == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        if (!postService.existsById(pid)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         Comment comment = commentService.createComment(pid, userDTO.getUid(), commentRequest.getContext(), commentRequest.getParentCommentId());

@@ -7,6 +7,7 @@ import com.example.api.model.Result;
 import com.example.api.model.User;
 import com.example.api.service.PostService;
 import com.example.api.utils.JWTManager;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,14 +36,15 @@ public class PostController {
         return true;
     }
     @PostMapping(value = "/posts", consumes = { "multipart/form-data" })
-    public ResponseEntity<Result> submitPost(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, Post post) {
+    public ResponseEntity<Result> submitPost(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,@Valid Post post) {
         Result result = new Result();
+        token = token.replace("Bearer ", "");
+        UserDTO userDTO = JWTManager.getDataFromToken(token, "user", UserDTO.class);
 
-        if (!checkToken(token)) {
-            result.setResultFailed(4);
-            return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
+        if (userDTO == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-
+        post.setUid(userDTO.getUid());
         PostDTO createdPost = postService.createPost(post);
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("post",createdPost);
@@ -56,7 +58,6 @@ public class PostController {
     @DeleteMapping("/posts/{pid}")
     public ResponseEntity<Result> deletePost(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                            @PathVariable Integer pid) {
-
 
         token = token.replace("Bearer ", "");
         UserDTO userDTO = JWTManager.getDataFromToken(token, "user", UserDTO.class);
@@ -83,6 +84,9 @@ public class PostController {
     @GetMapping("/posts/{pid}")
     public ResponseEntity<PostDTO> getPostDetails(@PathVariable Integer pid) {
         PostDTO postDetails = postService.getPostDetails(pid);
+        if (postDetails == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(postDetails, HttpStatus.OK);
     }
 }

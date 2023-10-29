@@ -5,7 +5,6 @@ import com.example.api.model.Result;
 import com.example.api.model.User;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.api.repository.UserRepository;
@@ -15,6 +14,7 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -100,7 +100,13 @@ public class UserService {
 
     }
 
+    public User findUserByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElse(null);
+        return user;
+
+    }
     public User updateUser(Integer id, User updatedUser) {
+
         return userRepository.findById(id)
                 .map(user -> {
                     user.setPersonalDescription(updatedUser.getPersonalDescription());
@@ -108,6 +114,7 @@ public class UserService {
                     user.setGender(updatedUser.getGender());
                     user.setPhone(updatedUser.getPhone());
                     user.setUsername(updatedUser.getUsername());
+
                     // Update other fields as needed
                     return userRepository.save(user);
                 }).orElseThrow(() -> new EntityNotFoundException("User not found with id " + id));
