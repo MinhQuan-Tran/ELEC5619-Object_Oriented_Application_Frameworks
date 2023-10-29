@@ -45,7 +45,7 @@ export default {
         };
 
         // Specify the complete URL for the backend endpoint
-        const backendUrl = "http://localhost:8082/api/emotion/add";
+        const backendUrl = "http://13.236.138.98:8082/api/emotion/add";
 
         // Make API call to add emotion record
         const response = await fetch(backendUrl, {

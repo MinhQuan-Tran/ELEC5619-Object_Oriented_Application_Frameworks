@@ -77,7 +77,7 @@ export default {
       userData.append('gender', this.formData.gender);
       userData.append('userType', 'Regular');
 
-      fetch("http://localhost:8082/api/register", {
+      fetch("http://13.236.138.98:8082/api/register", {
           method: "POST",
           body: userData
       })

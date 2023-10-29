@@ -59,7 +59,7 @@ mounted() {
 methods: {
   async fetchEmotionRecords() {
     try {
-      const response = await fetch(`http://localhost:8082/api/emotion/getAllByUid/${this.uid}`);
+      const response = await fetch(`http://13.236.138.98:8082/api/emotion/getAllByUid/${this.uid}`);
       const data = await response.json();
       if (Array.isArray(data)) {
         this.emotionRecords = data;
@@ -76,7 +76,7 @@ methods: {
   },
   async saveEdits() {
       try {
-          const response = await fetch(`http://localhost:8082/api/emotion/update`, {
+          const response = await fetch(`http://13.236.138.98:8082/api/emotion/update`, {
             method: "PUT",
             headers: {
               'Content-Type': 'application/json'
@@ -103,7 +103,7 @@ methods: {
   async deleteRecord(eid) {
     
     try {
-      const response = await fetch(`http://localhost:8082/api/emotion/delete/${eid}`, {
+      const response = await fetch(`http://13.236.138.98:8082/api/emotion/delete/${eid}`, {
         method: "DELETE"
       });
       const data = await response.json();
