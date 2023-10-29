@@ -35,6 +35,15 @@ export default {
                             date: new Date(comment.date),
                             user: comment.user,
                             content: comment.content,
+                            replies: comment.replies.map((reply: Comment) => {
+                                return {
+                                    id: reply.id,
+                                    date: new Date(reply.date),
+                                    user: reply.user,
+                                    content: reply.content,
+                                    replies: reply.replies
+                                };
+                            }),
                         };
                     })
                     this.content = data.content;
@@ -79,6 +88,8 @@ export default {
     },
     created() {
         this.getDetailPost();
+
+        console.log(this.comments)
     },
     components: {
         ForumCommentComponent,
