@@ -164,7 +164,7 @@ export default {
 
 .date {
     font-size: 0.8rem;
-    color: rgb(255, 255, 255, 0.8);
+    color: rgba(0, 0, 0, 0.8);
 }
 
 .delete-section {

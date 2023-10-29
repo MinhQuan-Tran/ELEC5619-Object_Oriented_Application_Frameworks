@@ -74,7 +74,7 @@ export default {
     align-items: stretch;
     justify-content: flex-start;
     text-align: left;
-    background-color: rgb(52, 52, 52);
+    background-color: rgb(237, 237, 237);
     box-sizing: border-box;
     padding: 0.5rem;
     border-radius: 8px;
@@ -90,7 +90,7 @@ hr {
     height: 1px;
     border: 0;
     margin: 0;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(79, 79, 79, 0.5);
 }
 
 .write-comment {

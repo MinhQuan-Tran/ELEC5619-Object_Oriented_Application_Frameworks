@@ -24,13 +24,13 @@
     <!-- Edit Modal -->
     <div v-if="isEditing" class="modal">
       <div class="modal-content">
-          <h3>Edit Emotion Record</h3>
-          <label>Emotion:</label>
-          <input v-model="editingRecord.emotion" type="text">
-          <label>Record Date:</label>
-          <input v-model="editingRecord.emotionRecordDate" type="text">
-          <button @click="saveEdits">Save</button>
-          <button @click="isEditing = false">Cancel</button>
+        <h3>Edit Emotion Record</h3>
+        <label>Emotion:</label>
+        <input v-model="editingRecord.emotion" type="text">
+        <label>Record Date:</label>
+        <input v-model="editingRecord.emotionRecordDate" type="text">
+        <button @click="saveEdits">Save</button>
+        <button @click="isEditing = false">Cancel</button>
       </div>
     </div>
   </div>
@@ -40,127 +40,127 @@
 import { mapState } from 'vuex';
 
 export default {
-data() {
-  return {
-    emotionRecords: [],
-    isEditing: false,
-    editingRecord: {},
-    componentKey: 0
-  };
-},
-computed: {
-  ...mapState({
-    uid: state => state.user.user_id
-  })
-},
-mounted() {
-  this.fetchEmotionRecords();
-},
-methods: {
-  async fetchEmotionRecords() {
-    try {
-      const response = await fetch(`http://13.236.138.98:8082/api/emotion/getAllByUid/${this.uid}`);
-      const data = await response.json();
-      if (Array.isArray(data)) {
-        this.emotionRecords = data;
-      } else {
-        console.error("Error fetching emotion records:", "Response format is not an array.");
-      }
-    } catch (error) {
-      console.error("Error fetching emotion records:", error);
-    }
+  data() {
+    return {
+      emotionRecords: [],
+      isEditing: false,
+      editingRecord: {},
+      componentKey: 0
+    };
   },
-  modifyRecord(record) {
-    this.editingRecord = { ...record };
-    this.isEditing = true;
+  computed: {
+    ...mapState({
+      uid: state => state.user.user_id
+    })
   },
-  async saveEdits() {
+  mounted() {
+    this.fetchEmotionRecords();
+  },
+  methods: {
+    async fetchEmotionRecords() {
       try {
-          const response = await fetch(`http://13.236.138.98:8082/api/emotion/update`, {
-            method: "PUT",
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.editingRecord)
-          });
-          const data = await response.json();
-          location.reload();
-
-          if (data.success) {
-              const index = this.emotionRecords.findIndex(record => record.eid === this.editingRecord.eid);
-              if (index !== -1) {
-                location.reload();
-              }
-              this.isEditing = false;
-              this.componentKey += 1;  // Trigger a re-render
-          } else {
-              console.error("Error updating emotion record:", data.message);
-          }
+        const response = await fetch(`http://13.236.138.98:8082/api/emotion/getAllByUid/${this.uid}`);
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          this.emotionRecords = data;
+        } else {
+          console.error("Error fetching emotion records:", "Response format is not an array.");
+        }
       } catch (error) {
-          console.error("Error updating emotion record:", error);
+        console.error("Error fetching emotion records:", error);
       }
-  },
-  async deleteRecord(eid) {
-    
-    try {
-      const response = await fetch(`http://13.236.138.98:8082/api/emotion/delete/${eid}`, {
-        method: "DELETE"
-      });
-      const data = await response.json();
-
-      if (data.success) {
+    },
+    modifyRecord(record) {
+      this.editingRecord = { ...record };
+      this.isEditing = true;
+    },
+    async saveEdits() {
+      try {
+        const response = await fetch(`http://13.236.138.98:8082/api/emotion/update`, {
+          method: "PUT",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.editingRecord)
+        });
+        const data = await response.json();
         location.reload();
-      } else {
-          console.error("Error deleting emotion record:", data.message);
-      }
-    } catch (error) {
-      console.error("Error deleting emotion record:", error);
-    }
-    location.reload();
 
+        if (data.success) {
+          const index = this.emotionRecords.findIndex(record => record.eid === this.editingRecord.eid);
+          if (index !== -1) {
+            location.reload();
+          }
+          this.isEditing = false;
+          this.componentKey += 1;  // Trigger a re-render
+        } else {
+          console.error("Error updating emotion record:", data.message);
+        }
+      } catch (error) {
+        console.error("Error updating emotion record:", error);
+      }
+    },
+    async deleteRecord(eid) {
+
+      try {
+        const response = await fetch(`http://13.236.138.98:8082/api/emotion/delete/${eid}`, {
+          method: "DELETE"
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          location.reload();
+        } else {
+          console.error("Error deleting emotion record:", data.message);
+        }
+      } catch (error) {
+        console.error("Error deleting emotion record:", error);
+      }
+      location.reload();
+
+    }
   }
-}
 };
 </script>
 
 <style scoped>
 .emotion-container {
-width: 80%;
-margin: 0 auto;
-padding: 20px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .emotion-table {
-width: 100%;
-border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .emotion-table th,
 .emotion-table td {
-border: 1px solid #ddd;
-padding: 8px 12px;
-text-align: left;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
 }
 
 .emotion-table th {
-background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 .modify-button {
-background-color: #4CAF50;
-color: white;
-padding: 8px 12px;
-border: none;
-cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
 }
 
 .delete-button {
-background-color: #f44336;
-color: white;
-padding: 8px 12px;
-border: none;
-cursor: pointer;
+  background-color: #f44336;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
 }
 
 .modal {

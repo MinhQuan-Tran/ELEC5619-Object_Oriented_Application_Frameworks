@@ -1,6 +1,12 @@
 <template>
   <header>
-    Header
+    <router-link to="/">
+      <img src="/Image_20231029232417.jpg" alt="Home" height="60" width="60">
+    </router-link>
+    <router-link to="/emotion-records">Emotion Tracker</router-link>
+    <router-link to="/emotionalrecord">Add Emotion</router-link>
+    <router-link to="/forum">Community Forum</router-link>
+
   </header>
 </template>
 
@@ -18,5 +24,12 @@ header {
   font-size: xx-large;
   background: rgba(var(--primary-color));
   /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5); */
+}
+
+header a {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  color: white;
 }
 </style>

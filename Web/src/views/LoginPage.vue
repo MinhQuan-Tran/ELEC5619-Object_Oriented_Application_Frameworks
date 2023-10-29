@@ -58,8 +58,10 @@ export default {
   <div class="login">
     <picture>
       <!-- <source srcset="/TaskBuddy_logo_dark.svg" media="(prefers-color-scheme: dark)" /> -->
-      <img src="/TaskBuddy_logo.svg" alt="TaskBuddy logo" height="300" width="300" />
+      <img src="/Image_20231029232417.jpg" alt="TaskBuddy logo" height="300" width="300" />
     </picture>
+
+    <br>
 
     <form ref="loginForm" class="login-form" @submit="submitPasswordLogin">
       <div class="input-box">

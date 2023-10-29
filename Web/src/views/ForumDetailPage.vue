@@ -137,7 +137,7 @@ main {
     align-items: stretch;
     justify-content: flex-start;
     text-align: left;
-    background-color: rgb(52, 52, 52);
+    background-color: rgb(237, 237, 237);
     box-sizing: border-box;
     padding: 0.5rem;
     border-radius: 8px;
