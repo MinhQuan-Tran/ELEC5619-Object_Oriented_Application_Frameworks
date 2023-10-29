@@ -1,13 +1,11 @@
 <template>
   <header>
-    <nav>
-      <ul>
-        <li><router-link to="/home">Home</router-link></li>
-        <li><router-link to="/emotionalrecord">Emotional Record</router-link></li>
-        <li><router-link to="/emotion-records">Emotion Records</router-link></li>
-        <li><router-link to="/profile">Profile</router-link></li>
-      </ul>
-    </nav>
+    <router-link to="/">
+      <img src="/Image_20231029232417.jpg" alt="Home" height="60" width="60">
+    </router-link>
+    <router-link to="/emotion-records">Emotion Tracker</router-link>
+    <router-link to="/emotionalrecord">Add Emotion</router-link>
+    <router-link to="/forum">Community Forum</router-link>
   </header>
 </template>
 
@@ -45,5 +43,12 @@ router-link {
 
 router-link:hover {
   background-color: #ddd;  /* Slight darkening on hover */
+}
+
+header a {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  color: white;
 }
 </style>

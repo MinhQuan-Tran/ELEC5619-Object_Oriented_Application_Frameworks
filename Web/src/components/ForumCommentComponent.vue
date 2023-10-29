@@ -100,6 +100,7 @@ details summary {
     border-radius: 4px;
     font-size: 0.9rem;
     cursor: pointer;
+    color: white;
 }
 
 .write-reply {

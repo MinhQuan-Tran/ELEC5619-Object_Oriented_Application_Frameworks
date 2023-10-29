@@ -1,7 +1,7 @@
 <template>
   <div class="signup">
     <picture>
-      <img src="/TaskBuddy_logo.svg" alt="TaskBuddy logo" height="300" width="300" />
+      <img src="/Image_20231029232417.jpg" alt="TaskBuddy logo" height="300" width="300" />
     </picture>
 
     <form class="login-form" @submit="submitSignup">
@@ -61,38 +61,38 @@ export default {
     };
   },
   methods: {
-    submitSignup(event:Event) {
+    submitSignup(event: Event) {
       event.preventDefault();
 
       if (this.formData.password !== this.formData.confirmPassword) {
-          alert("Passwords do not match!");
-          return;
+        alert("Passwords do not match!");
+        return;
       }
 
       const userData = new FormData();
       userData.append('username', this.formData.username);
       userData.append('email', this.formData.email);
       userData.append('password', this.formData.password);
-      userData.append('phone', this.formData.phone);      
+      userData.append('phone', this.formData.phone);
       userData.append('gender', this.formData.gender);
       userData.append('userType', 'Regular');
 
       fetch("http://13.236.138.98:8082/api/register", {
-          method: "POST",
-          body: userData
+        method: "POST",
+        body: userData
       })
-      .then(response => response.json())
-      .then(data => {
+        .then(response => response.json())
+        .then(data => {
           if (data.success) {
-              alert("Registration successful!");
+            alert("Registration successful!");
           } else {
-              alert(data.message || "Registration failed!");
+            alert(data.message || "Registration failed!");
           }
-      })
-      .catch(error => {
+        })
+        .catch(error => {
           console.error("Error:", error);
           alert("An error occurred during registration.");
-      });
+        });
     }
   },
 };
@@ -207,6 +207,7 @@ picture {
     color: var(--primary-color);
   }
 
-  
-}</style>
+
+}
+</style>
   
