@@ -36,6 +36,16 @@ const router = createRouter({
       path: '/reset-password/:resetPasswordToken/',
       name: 'ResetPassword',
       component: () => import('@/views/ResetPasswordPage.vue')
+    },
+    {
+      path: '/emotionalrecord',
+      name: 'EmotionalRecord',
+      component: () => import('@/views/EmotionalRecordPage.vue')
+    },
+    {
+      path: '/emotion-records',
+      name: 'EmotionRecords',
+      component: () => import('@/views/EmotionRecordsPage.vue')
     }
   ]
 })
