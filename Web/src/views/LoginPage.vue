@@ -75,6 +75,8 @@ export default {
       <button ref="loginBtn" type="submit">Login</button>
     </form>
 
+    <router-link to="/forgot-password">Forgot password?</router-link>
+
     <div class="signup">
       <p>New to TaskBuddy?</p>
       <router-link to="/signup">Sign up</router-link>
@@ -92,6 +94,7 @@ export default {
   align-items: center;
   flex-direction: column;
   padding: 2em;
+  overflow: auto;
 }
 
 picture {

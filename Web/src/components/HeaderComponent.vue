@@ -18,7 +18,7 @@ header {
   justify-content: space-between;
   align-items: center;
   font-size: larger;
-  background: #f5f5f5;  /* Light grey background */
+  background: rgba(var(--primary-color));
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -42,7 +42,8 @@ router-link {
 }
 
 router-link:hover {
-  background-color: #ddd;  /* Slight darkening on hover */
+  background-color: #ddd;
+  /* Slight darkening on hover */
 }
 
 header a {
