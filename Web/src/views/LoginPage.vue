@@ -65,7 +65,7 @@ export default {
 
     <form ref="loginForm" class="login-form" @submit="submitPasswordLogin">
       <div class="input-box">
-        <input type="email" name="email" id="email" v-model="formData.email" required />
+        <input type="text" name="email" id="email" v-model="formData.email" required />
         <label for="username">Email</label>
       </div>
       <div class="input-box">
