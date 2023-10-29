@@ -1,6 +1,6 @@
 // initial state
 const state = () => ({
-    user_id: null,
+    user_id: 1,
     username: null,
     email: null,
     phone_number: null,
