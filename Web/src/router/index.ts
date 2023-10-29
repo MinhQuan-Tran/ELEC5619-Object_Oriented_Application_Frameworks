@@ -46,6 +46,11 @@ const router = createRouter({
       path: '/emotion-records',
       name: 'EmotionRecords',
       component: () => import('@/views/EmotionRecordsPage.vue')
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: () => import('@/views/ProfilePage.vue')
     }
   ]
 })
