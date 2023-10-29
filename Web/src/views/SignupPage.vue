@@ -14,6 +14,10 @@
         <label for="email">Email</label>
       </div>
       <div class="input-box">
+        <input type="text" name="phone" id="phone" v-model="formData.phone" required />
+        <label for="phone">Phone</label>
+      </div>
+      <div class="input-box">
         <input type="password" name="password" id="password" v-model="formData.password" required />
         <label for="password">Password</label>
       </div>
@@ -21,6 +25,16 @@
         <input type="password" name="confirmPassword" id="confirmPassword" v-model="formData.confirmPassword" required />
         <label for="confirmPassword">Confirm Password</label>
       </div>
+      <div class="input-box" style="margin-top: 10px;"> <!-- Added a margin for alignment -->
+        <select name="gender" id="gender" v-model="formData.gender" required style="margin-bottom: 30px;">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+        <label for="gender" style="top: 0px;">gender</label>
+      </div>
+
+      <div style="height: 20px;"></div>
       <button ref="submit_btn" type="submit">Sign Up</button>
     </form>
 
@@ -40,17 +54,45 @@ export default {
         email: '',
         password: '',
         confirmPassword: '',
+        phone: '',
+        gender: 'Male',
+        userType: 'Regular'
       }
     };
   },
   methods: {
-    submitSignup(event: Event) {
+    submitSignup(event:Event) {
       event.preventDefault();
+
       if (this.formData.password !== this.formData.confirmPassword) {
-        alert("Passwords do not match!");
-        return;
+          alert("Passwords do not match!");
+          return;
       }
-      // Logic to send the signup data to your backend server.
+
+      const userData = new FormData();
+      userData.append('username', this.formData.username);
+      userData.append('email', this.formData.email);
+      userData.append('password', this.formData.password);
+      userData.append('phone', this.formData.phone);      
+      userData.append('gender', this.formData.gender);
+      userData.append('userType', 'Regular');
+
+      fetch("http://localhost:8082/api/register", {
+          method: "POST",
+          body: userData
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              alert("Registration successful!");
+          } else {
+              alert(data.message || "Registration failed!");
+          }
+      })
+      .catch(error => {
+          console.error("Error:", error);
+          alert("An error occurred during registration.");
+      });
     }
   },
 };
@@ -95,6 +137,8 @@ picture {
   position: relative;
   width: 100%;
 }
+
+
 
 .input-box input {
   width: 100%;
@@ -162,5 +206,7 @@ picture {
   .input-box input:valid~label {
     color: var(--primary-color);
   }
+
+  
 }</style>
   
