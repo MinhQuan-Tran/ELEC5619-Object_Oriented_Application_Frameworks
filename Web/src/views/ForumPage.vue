@@ -11,7 +11,11 @@ export default {
                 date: Date,
                 user: ForumUser,
                 content: string,
-            }[]
+            }[],
+            supportedLanguages: [] as {
+                display_name: string;
+                language_code: string;
+            }[],
         };
     },
     methods: {
@@ -49,6 +53,22 @@ export default {
     },
     created() {
         this.getPosts();
+
+        fetch("https://lecto-translation.p.rapidapi.com/v1/translate/languages", {
+            method: "GET",
+            headers: {
+                'X-RapidAPI-Key': 'bdb5168ac2msh71ec36747bb9e8fp18dfc8jsnf259043f5ed3',
+                'X-RapidAPI-Host': 'lecto-translation.p.rapidapi.com'
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                this.supportedLanguages = data.languages;
+            })
+            .catch((error) => {
+                console.error(error);
+                alert("Error getting supported languages")
+            });
     },
     components: {
         ForumPostComponent,
@@ -64,7 +84,8 @@ export default {
         </div>
         <div class="posts">
             <ForumPostComponent v-for="post in posts" :key="post.id.toString()" :id="post.id.toString()" :user="post.user"
-                :date="post.date" :post-id="post.id.valueOf()" :content="post.content">
+                :date="post.date" :post-id="post.id.valueOf()" :content="post.content"
+                :supported-languages="supportedLanguages">
             </ForumPostComponent>
         </div>
     </div>

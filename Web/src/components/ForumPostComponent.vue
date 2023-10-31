@@ -23,21 +23,40 @@ export default {
         content: {
             type: String,
             required: true
+        },
+        supportedLanguages: {
+            type: Array as () => {
+                display_name: string;
+                language_code: string;
+            }[],
+            required: true
         }
     },
     data() {
         return {
-            translatedContent: this.content,
+            translatedContent: "",
         };
     },
     methods: {
-        translate() {
-            fetch(`https://665.uncovernet.workers.dev/translate?text=${this.content}&target_lang=en`, {
-                // mode: "no-cors",
+        translate(event: Event) {
+            let data = JSON.stringify({
+                "texts": [this.content],
+                "to": [(event.target as HTMLOptionElement).value || "en"]
+            });
+
+            fetch("https://lecto-translation.p.rapidapi.com/v1/translate/text", {
+                method: "POST",
+                headers: {
+                    'content-type': 'application/json',
+                    'X-RapidAPI-Key': 'bdb5168ac2msh71ec36747bb9e8fp18dfc8jsnf259043f5ed3',
+                    'X-RapidAPI-Host': 'lecto-translation.p.rapidapi.com'
+                },
+                body: data,
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    this.translatedContent = data.response.translated_text;
+                    console.log(data.translations[0]);
+                    this.translatedContent = data.translations[0].translated[0];
                 })
                 .catch((error) => {
                     console.error(error);
@@ -45,9 +64,6 @@ export default {
                 });
         }
     },
-    // mounted() {
-    //     this.translatedContent = this.content;
-    // },
     components: {
         ForumHeaderComponent
     }
@@ -57,8 +73,19 @@ export default {
 <template>
     <div class="post">
         <ForumHeaderComponent :user="user" :date="date" :post-id="postId"></ForumHeaderComponent>
-        <button @click="translate">Translate to English</button>
         <p class="content">
+            {{ content }}
+        </p>
+        <span>
+            Translate to:
+            <select ref="languageOptions" @change="translate">
+                <option value="" selected disabled>Language</option>
+                <option v-for="language in supportedLanguages" :key="language.language_code"
+                    :value="language.language_code">{{
+                        language.display_name }}</option>
+            </select>
+        </span>
+        <p class="translated-content">
             {{ translatedContent }}
         </p>
         <router-link :to="`/forum/posts/${id}`" class="view-post">
